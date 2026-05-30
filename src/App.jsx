@@ -22,9 +22,9 @@ const workflows = [
   },
 ]
 
-// ── Keyframe injector ──────────────────────────────────────────────────────
+// ── Styles ─────────────────────────────────────────────────────────────────
 const css = `
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;600;700;800&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700;800&display=swap');
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -32,31 +32,29 @@ const css = `
 
   body { background: #070f24; color: #ffffff; overflow-x: hidden; }
 
-  @keyframes spin-cw  { from { transform: rotate(0deg);   } to { transform: rotate(360deg);  } }
-  @keyframes spin-ccw { from { transform: rotate(0deg);   } to { transform: rotate(-360deg); } }
+  /* ── Gear animations ── */
+  @keyframes spin-cw  { from { transform: rotate(0deg); } to { transform: rotate(360deg);  } }
+  @keyframes spin-ccw { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
 
-  .gear-cw  { display: inline-block; animation: spin-cw  8s linear infinite; }
-  .gear-ccw { display: inline-block; animation: spin-ccw 8s linear infinite; }
+  .gear-cw  { display: inline-block; animation: spin-cw  9s linear infinite; }
+  .gear-ccw { display: inline-block; animation: spin-ccw 9s linear infinite; }
 
-  /* Gear cluster — doubled in size, centered */
+  /* ── Gear cluster — SVG-based so gears are precisely positioned ── */
   .gear-cluster {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 32px;
+    height: 120px;
     position: relative;
-    width: 240px;
-    height: 160px;
-    margin: 0 auto 24px;
   }
-  .gear-cluster .g {
-    position: absolute;
-    font-size: 4rem;
-    line-height: 1;
+  .gear-cluster svg {
+    width: 200px;
+    height: 120px;
+    overflow: visible;
   }
-  .gear-cluster .g1 { top: 0; left: 50%; transform: translateX(-50%); font-size: 4.8rem; }
-  .gear-cluster .g2 { top: 48px; left: 16px; font-size: 3rem; }
-  .gear-cluster .g3 { top: 48px; right: 16px; font-size: 3rem; }
-  .gear-cluster .g4 { bottom: 0; left: 40px; font-size: 2.2rem; }
-  .gear-cluster .g5 { bottom: 0; right: 40px; font-size: 2.2rem; }
 
-  /* Workflow grid */
+  /* ── Workflow grid ── */
   .workflow-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -69,28 +67,48 @@ const css = `
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(96,165,250,0.18);
     border-radius: 16px;
-    padding: 28px 24px 32px;
+    padding: 32px 24px 36px;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+    transition: border-color 0.25s, background 0.25s;
   }
-  .tile-gear { font-size: 4rem; margin-bottom: 14px; }
+  .workflow-tile:hover {
+    background: rgba(96,165,250,0.06);
+    border-color: rgba(96,165,250,0.4);
+  }
+  .tile-gear {
+    font-size: 2.6rem;
+    margin-bottom: 16px;
+    line-height: 1;
+  }
   .tile-name {
     font-family: 'Playfair Display', serif;
     font-size: clamp(15px, 2vw, 18px);
     font-weight: 700;
     color: #ffffff;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     line-height: 1.3;
   }
   .tile-desc {
     font-size: 14px;
-    color: rgba(255,255,255,0.65);
-    line-height: 1.6;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.65;
   }
 
-  /* Pricing card */
+  /* ── Section heading ── */
+  .section-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 8vw, 96px);
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1;
+    pointer-events: none;
+    margin-bottom: clamp(36px, 5vw, 60px);
+  }
+
+  /* ── Pricing card ── */
   .pricing-card {
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(96,165,250,0.18);
@@ -100,7 +118,7 @@ const css = `
     width: 100%;
   }
   .pricing-top {
-    padding: 36px 40px 28px;
+    padding: 40px 44px 32px;
   }
   .pricing-label {
     font-size: 11px;
@@ -108,54 +126,56 @@ const css = `
     letter-spacing: 3px;
     text-transform: uppercase;
     color: #60a5fa;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
   }
   .pricing-numbers {
     display: flex;
     align-items: center;
     gap: 24px;
+    flex-wrap: wrap;
   }
   .pricing-amount {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(32px, 5vw, 48px);
+    font-size: clamp(36px, 5vw, 52px);
     font-weight: 800;
     color: #ffffff;
     line-height: 1;
   }
   .pricing-mo {
-    font-size: 0.55em;
+    font-size: 0.52em;
     font-weight: 400;
     color: rgba(255,255,255,0.6);
   }
   .pricing-period {
     font-size: 13px;
-    color: rgba(255,255,255,0.45);
-    margin-top: 6px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 7px;
     letter-spacing: 0.3px;
   }
   .pricing-plus {
     font-size: 28px;
-    color: rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.25);
     font-weight: 300;
     line-height: 1;
   }
   .pricing-footer {
-    background: rgba(96,165,250,0.07);
+    background: rgba(96,165,250,0.06);
     border-top: 1px solid rgba(96,165,250,0.12);
-    padding: 16px 40px;
+    padding: 18px 44px;
     font-size: 13px;
-    color: rgba(255,255,255,0.5);
+    color: rgba(255,255,255,0.45);
     letter-spacing: 0.2px;
   }
 
-  /* About card */
+  /* ── About card ── */
   .about-card {
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(96,165,250,0.18);
     border-radius: 16px;
-    padding: 36px 40px;
+    padding: 40px 44px;
     max-width: 680px;
     width: 100%;
+    text-align: left;
   }
   .about-role {
     font-size: 11px;
@@ -163,32 +183,49 @@ const css = `
     letter-spacing: 3px;
     text-transform: uppercase;
     color: #60a5fa;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
   }
   .about-name {
     font-family: 'Playfair Display', serif;
     font-size: clamp(22px, 3vw, 28px);
     font-weight: 700;
     color: #ffffff;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
   }
   .about-bio p {
     font-size: 15px;
-    color: rgba(255,255,255,0.72);
-    line-height: 1.75;
-    margin-bottom: 14px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.8;
+    margin-bottom: 16px;
   }
   .about-bio p:last-child { margin-bottom: 0; }
 
-  /* Cal modal */
+  /* ── CTA Button ── */
+  .cta-btn {
+    display: inline-block;
+    background: #ffffff;
+    color: #60a5fa;
+    padding: 15px 36px;
+    border-radius: 7px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.3px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .cta-btn:hover { background: #e2e8f0; }
+
+  /* ── Cal modal ── */
   .cal-overlay {
     display: none;
     position: fixed;
     inset: 0;
     z-index: 9999;
-    background: rgba(7,15,36,0.88);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    background: rgba(7,15,36,0.90);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     align-items: center;
     justify-content: center;
     padding: 20px;
@@ -242,8 +279,91 @@ const css = `
     background: #ffffff;
     border-radius: 0 0 16px 16px;
   }
+
+  /* ── Nav responsive ── */
+  @media (max-width: 600px) {
+    .nav-logo-circle {
+      width: 72px !important;
+      height: 72px !important;
+    }
+    .nav-logo-circle img {
+      height: 72px !important;
+    }
+    .nav-wordmark-line {
+      font-size: clamp(32px, 9vw, 52px) !important;
+    }
+    .nav-inner {
+      gap: 16px !important;
+      padding: 20px 20px !important;
+    }
+  }
+
+  /* ── Workflow grid mobile ── */
+  @media (max-width: 480px) {
+    .workflow-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .workflow-tile {
+      padding: 22px 14px 26px;
+    }
+    .tile-gear { font-size: 2rem; }
+    .pricing-top { padding: 28px 24px 22px; }
+    .pricing-footer { padding: 16px 24px; }
+    .about-card { padding: 28px 24px; }
+  }
 `
 
+// ── SVG Gear component ──────────────────────────────────────────────────────
+// Uses SVG paths for proper interlocking gear teeth appearance
+function GearSVG({ cx, cy, r, teeth, className, opacity = 1 }) {
+  const toothDepth = r * 0.28
+  const innerR = r - toothDepth
+  const toothAngle = (Math.PI * 2) / teeth
+  let d = ''
+  for (let i = 0; i < teeth; i++) {
+    const a0 = i * toothAngle - Math.PI / 2
+    const a1 = a0 + toothAngle * 0.3
+    const a2 = a0 + toothAngle * 0.5
+    const a3 = a0 + toothAngle * 0.8
+    const pts = [
+      [cx + innerR * Math.cos(a0), cy + innerR * Math.sin(a0)],
+      [cx + r * Math.cos(a1), cy + r * Math.sin(a1)],
+      [cx + r * Math.cos(a2), cy + r * Math.sin(a2)],
+      [cx + innerR * Math.cos(a3), cy + innerR * Math.sin(a3)],
+    ]
+    d += i === 0 ? `M ${pts[0][0]} ${pts[0][1]}` : `L ${pts[0][0]} ${pts[0][1]}`
+    d += ` L ${pts[1][0]} ${pts[1][1]} L ${pts[2][0]} ${pts[2][1]} L ${pts[3][0]} ${pts[3][1]}`
+  }
+  d += ' Z'
+  return (
+    <g className={className} style={{ transformOrigin: `${cx}px ${cy}px` }} opacity={opacity}>
+      <path d={d} fill="#60a5fa" />
+      <circle cx={cx} cy={cy} r={innerR * 0.38} fill="#070f24" />
+    </g>
+  )
+}
+
+function GearCluster() {
+  return (
+    <div className="gear-cluster">
+      <svg viewBox="0 0 220 130" xmlns="http://www.w3.org/2000/svg">
+        {/* Large center gear */}
+        <GearSVG cx={110} cy={52} r={38} teeth={12} className="gear-cw" />
+        {/* Left medium gear — meshed with center */}
+        <GearSVG cx={62} cy={78} r={26} teeth={8} className="gear-ccw" opacity={0.85} />
+        {/* Right medium gear — meshed with center */}
+        <GearSVG cx={158} cy={78} r={26} teeth={8} className="gear-cw" opacity={0.85} />
+        {/* Far left small gear */}
+        <GearSVG cx={30} cy={108} r={18} teeth={6} className="gear-cw" opacity={0.65} />
+        {/* Far right small gear */}
+        <GearSVG cx={190} cy={108} r={18} teeth={6} className="gear-ccw" opacity={0.65} />
+      </svg>
+    </div>
+  )
+}
+
+// ── Style injector ──────────────────────────────────────────────────────────
 function StyleInjector() {
   useEffect(() => {
     const tag = document.createElement('style')
@@ -254,96 +374,106 @@ function StyleInjector() {
   return null
 }
 
-// ── Nav — doubled in size ──────────────────────────────────────────────────
+// ── Nav ─────────────────────────────────────────────────────────────────────
 function Nav() {
   return (
     <nav style={{
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 200,
       background: '#070f24',
-      paddingTop: '44px', paddingBottom: '44px',
-      paddingLeft: '32px', paddingRight: '32px',
       borderTop: '20px solid #070f24',
-      display: 'flex', flexDirection: 'row',
-      alignItems: 'center', justifyContent: 'center', gap: '48px',
     }}>
-      <div style={{
-        width: '200px', height: '200px', borderRadius: '50%',
-        background: '#ffffff', display: 'flex', alignItems: 'center',
-        justifyContent: 'center', flexShrink: 0, overflow: 'hidden',
-        boxShadow: '0 3px 16px rgba(0,0,0,0.3)', padding: '8px',
-      }}>
-        <img src={benFranklin} alt="FranklinAI Solutions" style={{
-          height: '200px', width: 'auto', objectFit: 'contain', display: 'block',
-        }} />
-      </div>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-        <span style={{
-          fontSize: 'clamp(56px, 10vw, 104px)', fontWeight: 800, color: '#ffffff',
-          letterSpacing: '-2px', fontFamily: "'Inter', sans-serif", lineHeight: 1, whiteSpace: 'nowrap',
-        }}>Franklin<span style={{ color: '#60a5fa' }}>AI</span></span>
-        <span style={{
-          fontSize: 'clamp(56px, 10vw, 104px)', fontWeight: 800, color: '#ffffff',
-          letterSpacing: '-2.5px', fontFamily: "'Inter', sans-serif", lineHeight: 1, whiteSpace: 'nowrap',
-        }}>Solutions</span>
+      <div
+        className="nav-inner"
+        style={{
+          display: 'flex', flexDirection: 'row',
+          alignItems: 'center', justifyContent: 'center',
+          gap: '28px',
+          padding: '28px 32px',
+        }}
+      >
+        <div
+          className="nav-logo-circle"
+          style={{
+            width: '100px', height: '100px', borderRadius: '50%',
+            background: '#ffffff', display: 'flex', alignItems: 'center',
+            justifyContent: 'center', flexShrink: 0, overflow: 'hidden',
+            boxShadow: '0 3px 16px rgba(0,0,0,0.3)', padding: '6px',
+          }}
+        >
+          <img
+            src={benFranklin}
+            alt="FranklinAI Solutions"
+            style={{ height: '100px', width: 'auto', objectFit: 'contain', display: 'block' }}
+          />
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+          <span
+            className="nav-wordmark-line"
+            style={{
+              fontSize: 'clamp(36px, 7vw, 72px)', fontWeight: 800, color: '#ffffff',
+              letterSpacing: '-1.5px', fontFamily: "'Inter', sans-serif",
+              lineHeight: 1.05, whiteSpace: 'nowrap',
+            }}
+          >Franklin<span style={{ color: '#60a5fa' }}>AI</span></span>
+          <span
+            className="nav-wordmark-line"
+            style={{
+              fontSize: 'clamp(36px, 7vw, 72px)', fontWeight: 800, color: '#ffffff',
+              letterSpacing: '-1.5px', fontFamily: "'Inter', sans-serif",
+              lineHeight: 1.05, whiteSpace: 'nowrap',
+            }}
+          >Solutions</span>
+        </div>
       </div>
     </nav>
   )
 }
 
-// ── Hero ───────────────────────────────────────────────────────────────────
+// ── Nav height offset ───────────────────────────────────────────────────────
+// Nav: 20px border-top + 28px pad + ~105px content + 28px pad = ~181px desktop
+// Mobile (≤600px): 20px + 20px + ~72px + 20px = ~132px
+const NAV_OFFSET = 'clamp(148px, 22vw, 200px)'
+
+// ── Hero ─────────────────────────────────────────────────────────────────────
 function Hero({ onBook }) {
   return (
     <section style={{
-      padding: 'clamp(320px, 36vw, 440px) 24px 40px',
-      maxWidth: '680px', margin: '0 auto', textAlign: 'center', background: '#070f24',
+      paddingTop: NAV_OFFSET,
+      paddingBottom: 'clamp(60px, 8vw, 100px)',
+      paddingLeft: '24px',
+      paddingRight: '24px',
+      maxWidth: '680px',
+      margin: '0 auto',
+      textAlign: 'center',
+      background: '#070f24',
     }}>
       <h1 style={{
         fontFamily: "'Playfair Display', serif",
-        fontSize: 'clamp(40px, 6vw, 70px)', fontWeight: 800,
-        lineHeight: 1.08, color: '#ffffff', letterSpacing: '-0.5px', marginBottom: '22px',
+        fontSize: 'clamp(44px, 7vw, 76px)', fontWeight: 800,
+        lineHeight: 1.06, color: '#ffffff', letterSpacing: '-0.5px', marginBottom: '24px',
       }}>AI Automation</h1>
       <p style={{
-        fontSize: '17px', fontFamily: "'Inter', sans-serif", fontWeight: 400,
-        color: 'rgba(255,255,255,0.85)', lineHeight: 1.6,
-        maxWidth: '540px', margin: '0 auto 32px', letterSpacing: '0.3px',
+        fontSize: 'clamp(15px, 2vw, 17px)',
+        fontFamily: "'Inter', sans-serif", fontWeight: 400,
+        color: 'rgba(255,255,255,0.75)', lineHeight: 1.65,
+        maxWidth: '480px', margin: '0 auto 36px', letterSpacing: '0.2px',
       }}>
         Practical AI workflows built for<br />professional service firms.
       </p>
-      <button
-        style={{
-          display: 'inline-block', background: '#ffffff', color: '#60a5fa',
-          padding: '15px 34px', borderRadius: '7px', fontSize: '15px',
-          fontWeight: 700, fontFamily: "'Inter', sans-serif", letterSpacing: '0.3px',
-          border: 'none', cursor: 'pointer',
-        }}
-        onClick={onBook}
-        onMouseEnter={e => e.currentTarget.style.background = '#e2e8f0'}
-        onMouseLeave={e => e.currentTarget.style.background = '#ffffff'}
-      >
+      <button className="cta-btn" onClick={onBook}>
         Book a Free Audit →
       </button>
     </section>
   )
 }
 
-// ── Workflows ──────────────────────────────────────────────────────────────
+// ── Workflows ────────────────────────────────────────────────────────────────
 function Workflows() {
   return (
     <section style={{ background: '#070f24', padding: 'clamp(60px, 8vw, 100px) 24px' }}>
       <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
-        <div className="gear-cluster">
-          <span className="g g1 gear-cw">⚙️</span>
-          <span className="g g2 gear-ccw">⚙️</span>
-          <span className="g g3 gear-cw">⚙️</span>
-          <span className="g g4 gear-ccw">⚙️</span>
-          <span className="g g5 gear-cw">⚙️</span>
-        </div>
-        <h2 style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: '5.5vw', fontWeight: 800, color: '#ffffff',
-          lineHeight: 1, marginBottom: 'clamp(40px, 5vw, 64px)',
-          pointerEvents: 'none',
-        }}>Workflows</h2>
+        <GearCluster />
+        <h2 className="section-heading">Workflows</h2>
         <div className="workflow-grid">
           {workflows.map((w, i) => (
             <div className="workflow-tile" key={i}>
@@ -358,37 +488,30 @@ function Workflows() {
   )
 }
 
-// ── Pricing ────────────────────────────────────────────────────────────────
+// ── Pricing ──────────────────────────────────────────────────────────────────
 function Pricing() {
   return (
-    <section style={{ background: '#070f24', padding: '8px 24px clamp(60px, 8vw, 100px)' }}>
+    <section style={{ background: '#070f24', padding: 'clamp(60px, 8vw, 100px) 24px' }}>
       <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
-        <div className="section-content">
-          <h2 style={{
-            fontFamily: "'Playfair Display', serif",
-            fontSize: '5.5vw', fontWeight: 800, color: '#ffffff',
-            lineHeight: 1, marginBottom: 'clamp(32px, 4vw, 52px)',
-            pointerEvents: 'none',
-          }}>Pricing</h2>
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <div className="pricing-card">
-              <div className="pricing-top">
-                <div className="pricing-label">Per Workflow</div>
-                <div className="pricing-numbers">
-                  <div>
-                    <div className="pricing-amount">$2,500</div>
-                    <div className="pricing-period">one-time build</div>
-                  </div>
-                  <div className="pricing-plus">+</div>
-                  <div>
-                    <div className="pricing-amount">$250<span className="pricing-mo">/mo</span></div>
-                    <div className="pricing-period">retainer</div>
-                  </div>
+        <h2 className="section-heading">Pricing</h2>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div className="pricing-card">
+            <div className="pricing-top">
+              <div className="pricing-label">Per Workflow</div>
+              <div className="pricing-numbers">
+                <div>
+                  <div className="pricing-amount">$2,500</div>
+                  <div className="pricing-period">one-time build</div>
+                </div>
+                <div className="pricing-plus">+</div>
+                <div>
+                  <div className="pricing-amount">$250<span className="pricing-mo">/mo</span></div>
+                  <div className="pricing-period">retainer</div>
                 </div>
               </div>
-              <div className="pricing-footer">
-                Scope and final price determined by your free audit.
-              </div>
+            </div>
+            <div className="pricing-footer">
+              Scope and final price determined by your free audit.
             </div>
           </div>
         </div>
@@ -397,26 +520,19 @@ function Pricing() {
   )
 }
 
-// ── About ──────────────────────────────────────────────────────────────────
+// ── About ────────────────────────────────────────────────────────────────────
 function About() {
   return (
-    <section style={{ background: '#070f24', padding: '2px 24px clamp(60px, 8vw, 100px)' }}>
+    <section style={{ background: '#070f24', padding: 'clamp(60px, 8vw, 100px) 24px' }}>
       <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
-        <div className="section-content">
-          <h2 style={{
-            fontFamily: "'Playfair Display', serif",
-            fontSize: '5.5vw', fontWeight: 800, color: '#ffffff',
-            lineHeight: 1, marginBottom: 'clamp(32px, 4vw, 52px)',
-            pointerEvents: 'none',
-          }}>About</h2>
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <div className="about-card">
-              <div className="about-role">Founder & Builder</div>
-              <div className="about-name">David Peterson</div>
-              <div className="about-bio">
-                <p>David has spent 20 years in operations across research, education, healthcare, and small business — managing the workflows, systems, and processes that keep organizations running. From supporting executive leadership at national institutions to implementing digital tools that streamlined how teams work, he's always been the person who figures out how to make things run better.</p>
-                <p>That same drive is what FranklinAI Solutions is built on. AI automation isn't a new concept for David — it's the next step in work he's been doing his whole career, now with better tools.</p>
-              </div>
+        <h2 className="section-heading">About</h2>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div className="about-card">
+            <div className="about-role">Founder & Builder</div>
+            <div className="about-name">David Peterson</div>
+            <div className="about-bio">
+              <p>David has spent 20 years in operations across research, education, healthcare, and small business — managing the workflows, systems, and processes that keep organizations running. From supporting executive leadership at national institutions to implementing digital tools that streamlined how teams work, he's always been the person who figures out how to make things run better.</p>
+              <p>That same drive is what FranklinAI Solutions is built on. AI automation isn't a new concept for David — it's the next step in work he's been doing his whole career, now with better tools.</p>
             </div>
           </div>
         </div>
@@ -425,13 +541,13 @@ function About() {
   )
 }
 
-// ── Contact ────────────────────────────────────────────────────────────────
+// ── Contact ──────────────────────────────────────────────────────────────────
 function Contact({ onBook }) {
   return (
     <section style={{ background: '#070f24', padding: 'clamp(60px, 8vw, 100px) 24px' }}>
       <div style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center' }}>
         <div style={{
-          fontSize: '16px', fontWeight: 700, letterSpacing: '3px',
+          fontSize: '11px', fontWeight: 700, letterSpacing: '3px',
           textTransform: 'uppercase', color: '#60a5fa', marginBottom: '20px',
         }}>GET STARTED</div>
         <h2 style={{
@@ -440,25 +556,15 @@ function Contact({ onBook }) {
           color: '#ffffff', marginBottom: '20px', lineHeight: 1.1,
         }}>Book your free audit.</h2>
         <p style={{
-          fontSize: '17px', color: 'rgba(255,255,255,0.7)',
-          lineHeight: 1.6, marginBottom: '36px',
+          fontSize: '17px', color: 'rgba(255,255,255,0.65)',
+          lineHeight: 1.65, marginBottom: '36px',
         }}>
           30 minutes. We map your workflows and show you exactly what we can automate.
         </p>
-        <button
-          style={{
-            display: 'inline-block', background: '#ffffff', color: '#60a5fa',
-            padding: '15px 34px', borderRadius: '7px', fontSize: '15px',
-            fontWeight: 700, fontFamily: "'Inter', sans-serif", letterSpacing: '0.3px',
-            border: 'none', cursor: 'pointer', marginBottom: '24px',
-          }}
-          onClick={onBook}
-          onMouseEnter={e => e.currentTarget.style.background = '#e2e8f0'}
-          onMouseLeave={e => e.currentTarget.style.background = '#ffffff'}
-        >
+        <button className="cta-btn" onClick={onBook} style={{ marginBottom: '24px' }}>
           Book a Free Audit →
         </button>
-        <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.4)' }}>
+        <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.35)' }}>
           Or email: <a
             href="mailto:david@franklinaisolutions.com"
             style={{ color: '#60a5fa', textDecoration: 'none' }}
@@ -469,35 +575,44 @@ function Contact({ onBook }) {
   )
 }
 
-// ── Footer — doubled in size ───────────────────────────────────────────────
+// ── Footer ───────────────────────────────────────────────────────────────────
 function Footer() {
   return (
-    <footer style={{ background: '#070f24', padding: '88px 28px 64px', textAlign: 'center' }}>
+    <footer style={{
+      background: '#070f24',
+      padding: 'clamp(48px, 6vw, 72px) 28px clamp(40px, 5vw, 56px)',
+      textAlign: 'center',
+      borderTop: '1px solid rgba(96,165,250,0.08)',
+    }}>
       <div style={{
         display: 'flex', flexDirection: 'row', alignItems: 'center',
-        justifyContent: 'center', gap: '28px', margin: '0 auto 40px',
+        justifyContent: 'center', gap: '20px', margin: '0 auto 28px',
+        flexWrap: 'wrap',
       }}>
         <div style={{
-          width: '128px', height: '128px', borderRadius: '50%', background: '#ffffff',
+          width: '64px', height: '64px', borderRadius: '50%', background: '#ffffff',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          flexShrink: 0, overflow: 'hidden', padding: '6px',
+          flexShrink: 0, overflow: 'hidden', padding: '4px',
         }}>
           <img src={benFranklin} alt="FranklinAI Solutions" style={{
-            height: '128px', width: 'auto', objectFit: 'contain', display: 'block',
+            height: '64px', width: 'auto', objectFit: 'contain', display: 'block',
           }} />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left' }}>
           <span style={{
-            fontSize: '52px', fontWeight: 800, color: '#ffffff',
-            letterSpacing: '-0.5px', lineHeight: 1, fontFamily: "'Inter', sans-serif",
+            fontSize: 'clamp(22px, 4vw, 32px)', fontWeight: 800, color: '#ffffff',
+            letterSpacing: '-0.5px', lineHeight: 1.1, fontFamily: "'Inter', sans-serif",
           }}>Franklin<span style={{ color: '#60a5fa' }}>AI</span></span>
           <span style={{
-            fontSize: '52px', fontWeight: 800, color: '#ffffff',
-            letterSpacing: '-0.5px', lineHeight: 1, fontFamily: "'Inter', sans-serif",
+            fontSize: 'clamp(22px, 4vw, 32px)', fontWeight: 800, color: '#ffffff',
+            letterSpacing: '-0.5px', lineHeight: 1.1, fontFamily: "'Inter', sans-serif",
           }}>Solutions</span>
         </div>
       </div>
-      <span style={{ fontSize: '22px', color: 'rgba(255,255,255,0.35)', lineHeight: 1.7, display: 'block' }}>
+      <span style={{
+        fontSize: '13px', color: 'rgba(255,255,255,0.3)',
+        lineHeight: 1.8, display: 'block', letterSpacing: '0.2px',
+      }}>
         © 2026 FranklinAI Solutions · Philadelphia, PA<br />
         franklinaisolutions.com
       </span>
@@ -505,7 +620,7 @@ function Footer() {
   )
 }
 
-// ── CalModal ───────────────────────────────────────────────────────────────
+// ── CalModal ─────────────────────────────────────────────────────────────────
 function CalModal({ isOpen, onClose }) {
   return (
     <div
@@ -534,7 +649,7 @@ function CalModal({ isOpen, onClose }) {
   )
 }
 
-// ── App ────────────────────────────────────────────────────────────────────
+// ── App ──────────────────────────────────────────────────────────────────────
 export default function App() {
   const [calOpen, setCalOpen] = useState(false)
 
