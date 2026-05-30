@@ -36,13 +36,18 @@ const css = `
   .gear-cw  { display: inline-block; animation: spin-cw  9s linear infinite; }
   .gear-ccw { display: inline-block; animation: spin-ccw 9s linear infinite; }
 
-  /* ── Gear chain cluster — 3× size, centered, slight gap so not overlapping ── */
+  /* ── Gear chain cluster ──
+     Desktop: gc-lg=10.2rem, gc-md=7.8rem, gc-sm=6.0rem
+     Mobile ≤480px: exactly half — 5.1rem, 3.9rem, 3.0rem
+     Centered with breathing room above and below via margin.
+  ── */
   .gear-cluster {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 28px;
+    margin: clamp(24px, 4vw, 40px) auto clamp(24px, 4vw, 40px);
     line-height: 1;
+    width: 100%;
   }
   .gear-cluster .gc-gear {
     display: inline-block;
@@ -80,23 +85,23 @@ const css = `
   .tile-gear { font-size: 2.4rem; margin-bottom: 14px; line-height: 1; }
   .tile-name {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(15px, 2vw, 18px);
+    font-size: clamp(14px, 1.8vw, 17px);
     font-weight: 700;
     color: #ffffff;
     margin-bottom: 10px;
     line-height: 1.3;
   }
-  .tile-desc { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.65; }
+  .tile-desc { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.6; }
 
-  /* ── Section heading ── */
+  /* ── Section heading — capped at 56px so it's elegant not overwhelming ── */
   .section-heading {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(42px, 8vw, 96px);
+    font-size: clamp(36px, 5vw, 56px);
     font-weight: 800;
     color: #ffffff;
     line-height: 1;
     pointer-events: none;
-    margin-bottom: 32px;
+    margin-bottom: clamp(20px, 3vw, 32px);
   }
 
   /* ── Pricing card ── */
@@ -105,27 +110,27 @@ const css = `
     border: 1px solid rgba(96,165,250,0.18);
     border-radius: 16px;
     overflow: hidden;
-    max-width: 520px;
+    max-width: 480px;
     width: 100%;
   }
-  .pricing-top { padding: 36px 40px 28px; }
+  .pricing-top { padding: 32px 36px 24px; }
   .pricing-label {
     font-size: 11px; font-weight: 700; letter-spacing: 3px;
-    text-transform: uppercase; color: #60a5fa; margin-bottom: 20px;
+    text-transform: uppercase; color: #60a5fa; margin-bottom: 18px;
   }
-  .pricing-numbers { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .pricing-numbers { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
   .pricing-amount {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(32px, 5vw, 48px);
+    font-size: clamp(28px, 4vw, 44px);
     font-weight: 800; color: #ffffff; line-height: 1;
   }
   .pricing-mo { font-size: 0.52em; font-weight: 400; color: rgba(255,255,255,0.6); }
-  .pricing-period { font-size: 13px; color: rgba(255,255,255,0.4); margin-top: 7px; letter-spacing: 0.3px; }
-  .pricing-plus { font-size: 28px; color: rgba(255,255,255,0.25); font-weight: 300; line-height: 1; }
+  .pricing-period { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 6px; letter-spacing: 0.3px; }
+  .pricing-plus { font-size: 24px; color: rgba(255,255,255,0.25); font-weight: 300; line-height: 1; }
   .pricing-footer {
     background: rgba(96,165,250,0.06);
     border-top: 1px solid rgba(96,165,250,0.12);
-    padding: 16px 40px; font-size: 13px; color: rgba(255,255,255,0.45); letter-spacing: 0.2px;
+    padding: 14px 36px; font-size: 13px; color: rgba(255,255,255,0.45); letter-spacing: 0.2px;
   }
 
   /* ── About card ── */
@@ -133,18 +138,18 @@ const css = `
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(96,165,250,0.18);
     border-radius: 16px;
-    padding: 36px 40px;
-    max-width: 680px; width: 100%; text-align: left;
+    padding: 32px 36px;
+    max-width: 660px; width: 100%; text-align: left;
   }
-  .about-role { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #60a5fa; margin-bottom: 14px; }
-  .about-name { font-family: 'Playfair Display', serif; font-size: clamp(22px, 3vw, 28px); font-weight: 700; color: #ffffff; margin-bottom: 20px; }
-  .about-bio p { font-size: 15px; color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 14px; }
+  .about-role { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #60a5fa; margin-bottom: 12px; }
+  .about-name { font-family: 'Playfair Display', serif; font-size: clamp(20px, 2.5vw, 26px); font-weight: 700; color: #ffffff; margin-bottom: 18px; }
+  .about-bio p { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 12px; }
   .about-bio p:last-child { margin-bottom: 0; }
 
   /* ── CTA Button ── */
   .cta-btn {
     display: inline-block; background: #ffffff; color: #60a5fa;
-    padding: 15px 36px; border-radius: 7px; font-size: 15px; font-weight: 700;
+    padding: 14px 32px; border-radius: 7px; font-size: 15px; font-weight: 700;
     font-family: 'Inter', sans-serif; letter-spacing: 0.3px; border: none; cursor: pointer; transition: background 0.2s;
   }
   .cta-btn:hover { background: #e2e8f0; }
@@ -171,25 +176,28 @@ const css = `
   .cal-iframe-wrap { flex: 1; overflow: hidden; }
   .cal-iframe-wrap iframe { width: 100%; height: 100%; border: none; display: block; background: #ffffff; border-radius: 0 0 16px 16px; }
 
-  /* ── Nav responsive — mobile gets 50% of desktop values ── */
+  /* ── Mobile ≤600px — nav scales down ── */
   @media (max-width: 600px) {
-    .nav-logo-circle { width: 105px !important; height: 105px !important; }
-    .nav-logo-circle img { height: 105px !important; }
-    .nav-wordmark-line { font-size: clamp(38px, 10vw, 60px) !important; }
-    .nav-inner { gap: 16px !important; padding: 18px 20px !important; }
+    .nav-logo-circle { width: 80px !important; height: 80px !important; }
+    .nav-logo-circle img { height: 80px !important; }
+    .nav-wordmark-line { font-size: 34px !important; letter-spacing: -1px !important; }
+    .nav-inner { gap: 14px !important; padding: 14px 18px !important; }
   }
 
-  /* ── Mobile tweaks ── */
+  /* ── Mobile ≤480px — content tightens ── */
   @media (max-width: 480px) {
-    .workflow-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-    .workflow-tile { padding: 20px 12px 24px; }
-    .tile-gear { font-size: 1.8rem; }
-    .pricing-top { padding: 24px 20px 20px; }
-    .pricing-footer { padding: 14px 20px; }
-    .about-card { padding: 24px 20px; }
-    .gear-cluster .gc-lg { font-size: 6rem; }
-    .gear-cluster .gc-md { font-size: 4.6rem; }
-    .gear-cluster .gc-sm { font-size: 3.6rem; }
+    .workflow-grid { gap: 10px; }
+    .workflow-tile { padding: 18px 12px 22px; }
+    .tile-gear { font-size: 1.6rem; }
+    .tile-name { font-size: 13px; }
+    .tile-desc { font-size: 12px; }
+    .pricing-top { padding: 20px 18px 16px; }
+    .pricing-footer { padding: 12px 18px; }
+    .about-card { padding: 20px 18px; }
+    /* Gear cluster exactly half the desktop sizes */
+    .gear-cluster .gc-lg { font-size: 5.1rem; }
+    .gear-cluster .gc-md { font-size: 3.9rem; }
+    .gear-cluster .gc-sm { font-size: 3.0rem; }
   }
 `
 
@@ -223,9 +231,12 @@ function StyleInjector() {
 }
 
 // ── Nav ─────────────────────────────────────────────────────────────────────
-// 50% larger than previous: logo 140→210px, wordmark clamp(36→54, 6→9vw, 68→102px)
-// Total nav height desktop: 20px border + 20px pad + 210px logo + 20px pad = 270px
-// Mobile ≤600px: 20px + 18px + 105px + 18px = 161px
+// Logo: clamp(80px, 12vw, 140px) — scales with viewport, right-sized everywhere.
+// At 375px iPhone: 12vw = 45px → clamp floor = 80px. Good.
+// At 1200px desktop: 12vw = 144px → clamp cap = 140px. Good.
+// Wordmark: clamp(38px, 6vw, 72px)
+// Nav height: ~20px border + 16px pad + 140px logo + 16px pad = 192px desktop
+//             ~20px border + 14px pad + 80px logo + 14px pad = 128px mobile
 function Nav() {
   return (
     <nav style={{
@@ -238,40 +249,42 @@ function Nav() {
         style={{
           display: 'flex', flexDirection: 'row',
           alignItems: 'center', justifyContent: 'center',
-          gap: '28px',
-          padding: '20px 32px',
+          gap: '20px',
+          padding: '16px 32px',
         }}
       >
         <div
           className="nav-logo-circle"
           style={{
-            width: '210px', height: '210px', borderRadius: '50%',
+            width: 'clamp(80px, 12vw, 140px)',
+            height: 'clamp(80px, 12vw, 140px)',
+            borderRadius: '50%',
             background: '#ffffff', display: 'flex', alignItems: 'center',
             justifyContent: 'center', flexShrink: 0, overflow: 'hidden',
-            boxShadow: '0 4px 24px rgba(0,0,0,0.35)', padding: '8px',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.35)', padding: '6px',
           }}
         >
           <img
             src={benFranklin}
             alt="FranklinAI Solutions"
-            style={{ height: '210px', width: 'auto', objectFit: 'contain', display: 'block' }}
+            style={{ height: 'clamp(80px, 12vw, 140px)', width: 'auto', objectFit: 'contain', display: 'block' }}
           />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
           <span
             className="nav-wordmark-line"
             style={{
-              fontSize: 'clamp(54px, 9vw, 102px)', fontWeight: 800, color: '#ffffff',
-              letterSpacing: '-2px', fontFamily: "'Inter', sans-serif",
-              lineHeight: 1.02, whiteSpace: 'nowrap',
+              fontSize: 'clamp(38px, 6vw, 72px)', fontWeight: 800, color: '#ffffff',
+              letterSpacing: '-1.5px', fontFamily: "'Inter', sans-serif",
+              lineHeight: 1.04, whiteSpace: 'nowrap',
             }}
           >Franklin<span style={{ color: '#60a5fa' }}>AI</span></span>
           <span
             className="nav-wordmark-line"
             style={{
-              fontSize: 'clamp(54px, 9vw, 102px)', fontWeight: 800, color: '#ffffff',
-              letterSpacing: '-2px', fontFamily: "'Inter', sans-serif",
-              lineHeight: 1.02, whiteSpace: 'nowrap',
+              fontSize: 'clamp(38px, 6vw, 72px)', fontWeight: 800, color: '#ffffff',
+              letterSpacing: '-1.5px', fontFamily: "'Inter', sans-serif",
+              lineHeight: 1.04, whiteSpace: 'nowrap',
             }}
           >Solutions</span>
         </div>
@@ -281,16 +294,16 @@ function Nav() {
 }
 
 // ── Nav height offset ───────────────────────────────────────────────────────
-// Desktop: 20px border + 20px pad + 210px logo + 20px pad = 270px → use 280px
-// Mobile ≤600px: 20px + 18px + 105px + 18px = 161px → clamp floor
-const NAV_OFFSET = 'clamp(168px, 28vw, 288px)'
+// Desktop (1200px): 20 + 16 + 140 + 16 = 192px → use 208px
+// Mobile (375px):   20 + 14 + 80  + 14 = 128px → clamp floor 136px covers it
+const NAV_OFFSET = 'clamp(136px, 18vw, 212px)'
 
 // ── Hero ─────────────────────────────────────────────────────────────────────
 function Hero({ onBook }) {
   return (
     <section style={{
       paddingTop: NAV_OFFSET,
-      paddingBottom: '32px',
+      paddingBottom: 'clamp(28px, 4vw, 48px)',
       paddingLeft: '24px',
       paddingRight: '24px',
       maxWidth: '680px',
@@ -300,14 +313,14 @@ function Hero({ onBook }) {
     }}>
       <h1 style={{
         fontFamily: "'Playfair Display', serif",
-        fontSize: 'clamp(44px, 7vw, 76px)', fontWeight: 800,
-        lineHeight: 1.06, color: '#ffffff', letterSpacing: '-0.5px', marginBottom: '20px',
+        fontSize: 'clamp(40px, 6vw, 68px)', fontWeight: 800,
+        lineHeight: 1.06, color: '#ffffff', letterSpacing: '-0.5px', marginBottom: '18px',
       }}>AI Automation</h1>
       <p style={{
-        fontSize: 'clamp(15px, 2vw, 17px)',
+        fontSize: 'clamp(14px, 1.8vw, 16px)',
         fontFamily: "'Inter', sans-serif", fontWeight: 400,
         color: 'rgba(255,255,255,0.75)', lineHeight: 1.65,
-        maxWidth: '480px', margin: '0 auto 32px', letterSpacing: '0.2px',
+        maxWidth: '440px', margin: '0 auto 28px', letterSpacing: '0.2px',
       }}>
         Practical AI workflows built for<br />professional service firms.
       </p>
@@ -321,7 +334,7 @@ function Hero({ onBook }) {
 // ── Workflows ────────────────────────────────────────────────────────────────
 function Workflows() {
   return (
-    <section style={{ background: '#070f24', padding: '32px 24px' }}>
+    <section style={{ background: '#070f24', padding: 'clamp(20px, 3vw, 36px) 24px' }}>
       <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
         <GearCluster />
         <h2 className="section-heading">Workflows</h2>
@@ -342,7 +355,7 @@ function Workflows() {
 // ── Pricing ──────────────────────────────────────────────────────────────────
 function Pricing() {
   return (
-    <section style={{ background: '#070f24', padding: '32px 24px' }}>
+    <section style={{ background: '#070f24', padding: 'clamp(20px, 3vw, 36px) 24px' }}>
       <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
         <h2 className="section-heading">Pricing</h2>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -374,7 +387,7 @@ function Pricing() {
 // ── About ────────────────────────────────────────────────────────────────────
 function About() {
   return (
-    <section style={{ background: '#070f24', padding: '32px 24px' }}>
+    <section style={{ background: '#070f24', padding: 'clamp(20px, 3vw, 36px) 24px' }}>
       <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
         <h2 className="section-heading">About</h2>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -395,27 +408,27 @@ function About() {
 // ── Contact ──────────────────────────────────────────────────────────────────
 function Contact({ onBook }) {
   return (
-    <section style={{ background: '#070f24', padding: '32px 24px 48px' }}>
-      <div style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center' }}>
+    <section style={{ background: '#070f24', padding: 'clamp(20px, 3vw, 36px) 24px clamp(36px, 5vw, 60px)' }}>
+      <div style={{ maxWidth: '560px', margin: '0 auto', textAlign: 'center' }}>
         <div style={{
           fontSize: '11px', fontWeight: 700, letterSpacing: '3px',
-          textTransform: 'uppercase', color: '#60a5fa', marginBottom: '18px',
+          textTransform: 'uppercase', color: '#60a5fa', marginBottom: '16px',
         }}>GET STARTED</div>
         <h2 style={{
           fontFamily: "'Playfair Display', serif",
-          fontSize: 'clamp(32px, 5vw, 52px)', fontWeight: 800,
-          color: '#ffffff', marginBottom: '18px', lineHeight: 1.1,
+          fontSize: 'clamp(28px, 4vw, 46px)', fontWeight: 800,
+          color: '#ffffff', marginBottom: '16px', lineHeight: 1.1,
         }}>Book your free audit.</h2>
         <p style={{
-          fontSize: '17px', color: 'rgba(255,255,255,0.65)',
-          lineHeight: 1.65, marginBottom: '32px',
+          fontSize: '15px', color: 'rgba(255,255,255,0.65)',
+          lineHeight: 1.65, marginBottom: '28px',
         }}>
           30 minutes. We map your workflows and show you exactly what we can automate.
         </p>
-        <button className="cta-btn" onClick={onBook} style={{ marginBottom: '20px' }}>
+        <button className="cta-btn" onClick={onBook} style={{ marginBottom: '18px' }}>
           Book a Free Audit →
         </button>
-        <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.35)' }}>
+        <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.35)' }}>
           Or email: <a
             href="mailto:david@franklinaisolutions.com"
             style={{ color: '#60a5fa', textDecoration: 'none' }}
@@ -431,38 +444,38 @@ function Footer() {
   return (
     <footer style={{
       background: '#070f24',
-      padding: '40px 28px 44px',
+      padding: 'clamp(28px, 4vw, 44px) 28px clamp(28px, 4vw, 44px)',
       textAlign: 'center',
       borderTop: '1px solid rgba(96,165,250,0.08)',
     }}>
       <div style={{
         display: 'flex', flexDirection: 'row', alignItems: 'center',
-        justifyContent: 'center', gap: '24px', margin: '0 auto 24px',
+        justifyContent: 'center', gap: '18px', margin: '0 auto 20px',
         flexWrap: 'wrap',
       }}>
         <div style={{
-          width: '96px', height: '96px', borderRadius: '50%', background: '#ffffff',
+          width: '80px', height: '80px', borderRadius: '50%', background: '#ffffff',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          flexShrink: 0, overflow: 'hidden', padding: '5px',
+          flexShrink: 0, overflow: 'hidden', padding: '4px',
           boxShadow: '0 3px 12px rgba(0,0,0,0.3)',
         }}>
           <img src={benFranklin} alt="FranklinAI Solutions" style={{
-            height: '96px', width: 'auto', objectFit: 'contain', display: 'block',
+            height: '80px', width: 'auto', objectFit: 'contain', display: 'block',
           }} />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left' }}>
           <span style={{
-            fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 800, color: '#ffffff',
+            fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 800, color: '#ffffff',
             letterSpacing: '-0.5px', lineHeight: 1.1, fontFamily: "'Inter', sans-serif",
           }}>Franklin<span style={{ color: '#60a5fa' }}>AI</span></span>
           <span style={{
-            fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 800, color: '#ffffff',
+            fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 800, color: '#ffffff',
             letterSpacing: '-0.5px', lineHeight: 1.1, fontFamily: "'Inter', sans-serif",
           }}>Solutions</span>
         </div>
       </div>
       <span style={{
-        fontSize: '13px', color: 'rgba(255,255,255,0.3)',
+        fontSize: '12px', color: 'rgba(255,255,255,0.3)',
         lineHeight: 1.8, display: 'block', letterSpacing: '0.2px',
       }}>
         © 2026 FranklinAI Solutions · Philadelphia, PA<br />
