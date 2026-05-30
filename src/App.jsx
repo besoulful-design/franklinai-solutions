@@ -39,26 +39,29 @@ const css = `
   .gear-cw  { display: inline-block; animation: spin-cw  9s linear infinite; }
   .gear-ccw { display: inline-block; animation: spin-ccw 9s linear infinite; }
 
-  /* ── Gear cluster — SVG-based so gears are precisely positioned ── */
+  /* ── Gear chain cluster ── */
   .gear-cluster {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 32px;
-    height: 120px;
-    position: relative;
+    gap: 0px;
+    margin: 0 auto 28px;
+    line-height: 1;
   }
-  .gear-cluster svg {
-    width: 200px;
-    height: 120px;
-    overflow: visible;
+  .gear-cluster .gc-gear {
+    display: inline-block;
+    line-height: 1;
+    margin: 0 -4px;
   }
+  .gear-cluster .gc-lg { font-size: 3.4rem; }
+  .gear-cluster .gc-md { font-size: 2.6rem; }
+  .gear-cluster .gc-sm { font-size: 2.0rem; }
 
   /* ── Workflow grid ── */
   .workflow-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: 16px;
     width: 100%;
     max-width: 820px;
     margin: 0 auto;
@@ -67,7 +70,7 @@ const css = `
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(96,165,250,0.18);
     border-radius: 16px;
-    padding: 32px 24px 36px;
+    padding: 28px 20px 32px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -79,8 +82,8 @@ const css = `
     border-color: rgba(96,165,250,0.4);
   }
   .tile-gear {
-    font-size: 2.6rem;
-    margin-bottom: 16px;
+    font-size: 2.4rem;
+    margin-bottom: 14px;
     line-height: 1;
   }
   .tile-name {
@@ -88,7 +91,7 @@ const css = `
     font-size: clamp(15px, 2vw, 18px);
     font-weight: 700;
     color: #ffffff;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     line-height: 1.3;
   }
   .tile-desc {
@@ -105,7 +108,7 @@ const css = `
     color: #ffffff;
     line-height: 1;
     pointer-events: none;
-    margin-bottom: clamp(36px, 5vw, 60px);
+    margin-bottom: clamp(28px, 4vw, 48px);
   }
 
   /* ── Pricing card ── */
@@ -118,7 +121,7 @@ const css = `
     width: 100%;
   }
   .pricing-top {
-    padding: 40px 44px 32px;
+    padding: 36px 40px 28px;
   }
   .pricing-label {
     font-size: 11px;
@@ -126,7 +129,7 @@ const css = `
     letter-spacing: 3px;
     text-transform: uppercase;
     color: #60a5fa;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
   }
   .pricing-numbers {
     display: flex;
@@ -136,7 +139,7 @@ const css = `
   }
   .pricing-amount {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(36px, 5vw, 52px);
+    font-size: clamp(32px, 5vw, 48px);
     font-weight: 800;
     color: #ffffff;
     line-height: 1;
@@ -161,7 +164,7 @@ const css = `
   .pricing-footer {
     background: rgba(96,165,250,0.06);
     border-top: 1px solid rgba(96,165,250,0.12);
-    padding: 18px 44px;
+    padding: 16px 40px;
     font-size: 13px;
     color: rgba(255,255,255,0.45);
     letter-spacing: 0.2px;
@@ -172,7 +175,7 @@ const css = `
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(96,165,250,0.18);
     border-radius: 16px;
-    padding: 40px 44px;
+    padding: 36px 40px;
     max-width: 680px;
     width: 100%;
     text-align: left;
@@ -183,20 +186,20 @@ const css = `
     letter-spacing: 3px;
     text-transform: uppercase;
     color: #60a5fa;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
   .about-name {
     font-family: 'Playfair Display', serif;
     font-size: clamp(22px, 3vw, 28px);
     font-weight: 700;
     color: #ffffff;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
   }
   .about-bio p {
     font-size: 15px;
     color: rgba(255,255,255,0.7);
     line-height: 1.8;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
   .about-bio p:last-child { margin-bottom: 0; }
 
@@ -283,82 +286,54 @@ const css = `
   /* ── Nav responsive ── */
   @media (max-width: 600px) {
     .nav-logo-circle {
-      width: 72px !important;
-      height: 72px !important;
+      width: 88px !important;
+      height: 88px !important;
     }
     .nav-logo-circle img {
-      height: 72px !important;
+      height: 88px !important;
     }
     .nav-wordmark-line {
-      font-size: clamp(32px, 9vw, 52px) !important;
+      font-size: clamp(30px, 9vw, 48px) !important;
     }
     .nav-inner {
       gap: 16px !important;
-      padding: 20px 20px !important;
+      padding: 18px 20px !important;
     }
   }
 
-  /* ── Workflow grid mobile ── */
+  /* ── Mobile tweaks ── */
   @media (max-width: 480px) {
     .workflow-grid {
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 10px;
     }
-    .workflow-tile {
-      padding: 22px 14px 26px;
-    }
-    .tile-gear { font-size: 2rem; }
-    .pricing-top { padding: 28px 24px 22px; }
-    .pricing-footer { padding: 16px 24px; }
-    .about-card { padding: 28px 24px; }
+    .workflow-tile { padding: 20px 12px 24px; }
+    .tile-gear { font-size: 1.8rem; }
+    .pricing-top { padding: 24px 20px 20px; }
+    .pricing-footer { padding: 14px 20px; }
+    .about-card { padding: 24px 20px; }
+    .gear-cluster .gc-lg { font-size: 2.6rem; }
+    .gear-cluster .gc-md { font-size: 2.0rem; }
+    .gear-cluster .gc-sm { font-size: 1.6rem; }
   }
 `
 
-// ── SVG Gear component ──────────────────────────────────────────────────────
-// Uses SVG paths for proper interlocking gear teeth appearance
-function GearSVG({ cx, cy, r, teeth, className, opacity = 1 }) {
-  const toothDepth = r * 0.28
-  const innerR = r - toothDepth
-  const toothAngle = (Math.PI * 2) / teeth
-  let d = ''
-  for (let i = 0; i < teeth; i++) {
-    const a0 = i * toothAngle - Math.PI / 2
-    const a1 = a0 + toothAngle * 0.3
-    const a2 = a0 + toothAngle * 0.5
-    const a3 = a0 + toothAngle * 0.8
-    const pts = [
-      [cx + innerR * Math.cos(a0), cy + innerR * Math.sin(a0)],
-      [cx + r * Math.cos(a1), cy + r * Math.sin(a1)],
-      [cx + r * Math.cos(a2), cy + r * Math.sin(a2)],
-      [cx + innerR * Math.cos(a3), cy + innerR * Math.sin(a3)],
-    ]
-    d += i === 0 ? `M ${pts[0][0]} ${pts[0][1]}` : `L ${pts[0][0]} ${pts[0][1]}`
-    d += ` L ${pts[1][0]} ${pts[1][1]} L ${pts[2][0]} ${pts[2][1]} L ${pts[3][0]} ${pts[3][1]}`
-  }
-  d += ' Z'
-  return (
-    <g className={className} style={{ transformOrigin: `${cx}px ${cy}px` }} opacity={opacity}>
-      <path d={d} fill="#60a5fa" />
-      <circle cx={cx} cy={cy} r={innerR * 0.38} fill="#070f24" />
-    </g>
-  )
-}
-
+// ── Gear Chain Cluster ──────────────────────────────────────────────────────
+// Five emoji gears in a horizontal chain, alternating size so they look linked
 function GearCluster() {
+  // Pattern: sm, md, lg, md, sm — alternating spin directions
+  const gears = [
+    { size: 'gc-sm', dir: 'gear-ccw' },
+    { size: 'gc-md', dir: 'gear-cw'  },
+    { size: 'gc-lg', dir: 'gear-ccw' },
+    { size: 'gc-md', dir: 'gear-cw'  },
+    { size: 'gc-sm', dir: 'gear-ccw' },
+  ]
   return (
     <div className="gear-cluster">
-      <svg viewBox="0 0 220 130" xmlns="http://www.w3.org/2000/svg">
-        {/* Large center gear */}
-        <GearSVG cx={110} cy={52} r={38} teeth={12} className="gear-cw" />
-        {/* Left medium gear — meshed with center */}
-        <GearSVG cx={62} cy={78} r={26} teeth={8} className="gear-ccw" opacity={0.85} />
-        {/* Right medium gear — meshed with center */}
-        <GearSVG cx={158} cy={78} r={26} teeth={8} className="gear-cw" opacity={0.85} />
-        {/* Far left small gear */}
-        <GearSVG cx={30} cy={108} r={18} teeth={6} className="gear-cw" opacity={0.65} />
-        {/* Far right small gear */}
-        <GearSVG cx={190} cy={108} r={18} teeth={6} className="gear-ccw" opacity={0.65} />
-      </svg>
+      {gears.map((g, i) => (
+        <span key={i} className={`gc-gear ${g.size} ${g.dir}`}>⚙️</span>
+      ))}
     </div>
   )
 }
@@ -375,6 +350,9 @@ function StyleInjector() {
 }
 
 // ── Nav ─────────────────────────────────────────────────────────────────────
+// Logo: 140px desktop, 88px mobile. NAV_OFFSET must match total nav height.
+// Desktop: 20px border-top + 24px pad + 140px logo + 24px pad = 208px
+// Mobile ≤600px: 20px + 18px + 88px + 18px = 144px
 function Nav() {
   return (
     <nav style={{
@@ -387,30 +365,30 @@ function Nav() {
         style={{
           display: 'flex', flexDirection: 'row',
           alignItems: 'center', justifyContent: 'center',
-          gap: '28px',
-          padding: '28px 32px',
+          gap: '24px',
+          padding: '24px 32px',
         }}
       >
         <div
           className="nav-logo-circle"
           style={{
-            width: '100px', height: '100px', borderRadius: '50%',
+            width: '140px', height: '140px', borderRadius: '50%',
             background: '#ffffff', display: 'flex', alignItems: 'center',
             justifyContent: 'center', flexShrink: 0, overflow: 'hidden',
-            boxShadow: '0 3px 16px rgba(0,0,0,0.3)', padding: '6px',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.35)', padding: '6px',
           }}
         >
           <img
             src={benFranklin}
             alt="FranklinAI Solutions"
-            style={{ height: '100px', width: 'auto', objectFit: 'contain', display: 'block' }}
+            style={{ height: '140px', width: 'auto', objectFit: 'contain', display: 'block' }}
           />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
           <span
             className="nav-wordmark-line"
             style={{
-              fontSize: 'clamp(36px, 7vw, 72px)', fontWeight: 800, color: '#ffffff',
+              fontSize: 'clamp(36px, 6vw, 68px)', fontWeight: 800, color: '#ffffff',
               letterSpacing: '-1.5px', fontFamily: "'Inter', sans-serif",
               lineHeight: 1.05, whiteSpace: 'nowrap',
             }}
@@ -418,7 +396,7 @@ function Nav() {
           <span
             className="nav-wordmark-line"
             style={{
-              fontSize: 'clamp(36px, 7vw, 72px)', fontWeight: 800, color: '#ffffff',
+              fontSize: 'clamp(36px, 6vw, 68px)', fontWeight: 800, color: '#ffffff',
               letterSpacing: '-1.5px', fontFamily: "'Inter', sans-serif",
               lineHeight: 1.05, whiteSpace: 'nowrap',
             }}
@@ -430,16 +408,16 @@ function Nav() {
 }
 
 // ── Nav height offset ───────────────────────────────────────────────────────
-// Nav: 20px border-top + 28px pad + ~105px content + 28px pad = ~181px desktop
-// Mobile (≤600px): 20px + 20px + ~72px + 20px = ~132px
-const NAV_OFFSET = 'clamp(148px, 22vw, 200px)'
+// Desktop: 20px border + 24px pad + 140px logo + 24px pad = 208px → use 220px for breathing room
+// Mobile ≤600px: 20px + 18px + 88px + 18px = 144px → clamp floor covers it
+const NAV_OFFSET = 'clamp(160px, 22vw, 228px)'
 
 // ── Hero ─────────────────────────────────────────────────────────────────────
 function Hero({ onBook }) {
   return (
     <section style={{
       paddingTop: NAV_OFFSET,
-      paddingBottom: 'clamp(60px, 8vw, 100px)',
+      paddingBottom: 'clamp(48px, 6vw, 80px)',
       paddingLeft: '24px',
       paddingRight: '24px',
       maxWidth: '680px',
@@ -450,13 +428,13 @@ function Hero({ onBook }) {
       <h1 style={{
         fontFamily: "'Playfair Display', serif",
         fontSize: 'clamp(44px, 7vw, 76px)', fontWeight: 800,
-        lineHeight: 1.06, color: '#ffffff', letterSpacing: '-0.5px', marginBottom: '24px',
+        lineHeight: 1.06, color: '#ffffff', letterSpacing: '-0.5px', marginBottom: '20px',
       }}>AI Automation</h1>
       <p style={{
         fontSize: 'clamp(15px, 2vw, 17px)',
         fontFamily: "'Inter', sans-serif", fontWeight: 400,
         color: 'rgba(255,255,255,0.75)', lineHeight: 1.65,
-        maxWidth: '480px', margin: '0 auto 36px', letterSpacing: '0.2px',
+        maxWidth: '480px', margin: '0 auto 32px', letterSpacing: '0.2px',
       }}>
         Practical AI workflows built for<br />professional service firms.
       </p>
@@ -470,7 +448,7 @@ function Hero({ onBook }) {
 // ── Workflows ────────────────────────────────────────────────────────────────
 function Workflows() {
   return (
-    <section style={{ background: '#070f24', padding: 'clamp(60px, 8vw, 100px) 24px' }}>
+    <section style={{ background: '#070f24', padding: 'clamp(40px, 5vw, 64px) 24px' }}>
       <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
         <GearCluster />
         <h2 className="section-heading">Workflows</h2>
@@ -491,7 +469,7 @@ function Workflows() {
 // ── Pricing ──────────────────────────────────────────────────────────────────
 function Pricing() {
   return (
-    <section style={{ background: '#070f24', padding: 'clamp(60px, 8vw, 100px) 24px' }}>
+    <section style={{ background: '#070f24', padding: 'clamp(40px, 5vw, 64px) 24px' }}>
       <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
         <h2 className="section-heading">Pricing</h2>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -523,7 +501,7 @@ function Pricing() {
 // ── About ────────────────────────────────────────────────────────────────────
 function About() {
   return (
-    <section style={{ background: '#070f24', padding: 'clamp(60px, 8vw, 100px) 24px' }}>
+    <section style={{ background: '#070f24', padding: 'clamp(40px, 5vw, 64px) 24px' }}>
       <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
         <h2 className="section-heading">About</h2>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -544,24 +522,24 @@ function About() {
 // ── Contact ──────────────────────────────────────────────────────────────────
 function Contact({ onBook }) {
   return (
-    <section style={{ background: '#070f24', padding: 'clamp(60px, 8vw, 100px) 24px' }}>
+    <section style={{ background: '#070f24', padding: 'clamp(40px, 5vw, 64px) 24px' }}>
       <div style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center' }}>
         <div style={{
           fontSize: '11px', fontWeight: 700, letterSpacing: '3px',
-          textTransform: 'uppercase', color: '#60a5fa', marginBottom: '20px',
+          textTransform: 'uppercase', color: '#60a5fa', marginBottom: '18px',
         }}>GET STARTED</div>
         <h2 style={{
           fontFamily: "'Playfair Display', serif",
           fontSize: 'clamp(32px, 5vw, 52px)', fontWeight: 800,
-          color: '#ffffff', marginBottom: '20px', lineHeight: 1.1,
+          color: '#ffffff', marginBottom: '18px', lineHeight: 1.1,
         }}>Book your free audit.</h2>
         <p style={{
           fontSize: '17px', color: 'rgba(255,255,255,0.65)',
-          lineHeight: 1.65, marginBottom: '36px',
+          lineHeight: 1.65, marginBottom: '32px',
         }}>
           30 minutes. We map your workflows and show you exactly what we can automate.
         </p>
-        <button className="cta-btn" onClick={onBook} style={{ marginBottom: '24px' }}>
+        <button className="cta-btn" onClick={onBook} style={{ marginBottom: '20px' }}>
           Book a Free Audit →
         </button>
         <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.35)' }}>
@@ -580,31 +558,32 @@ function Footer() {
   return (
     <footer style={{
       background: '#070f24',
-      padding: 'clamp(48px, 6vw, 72px) 28px clamp(40px, 5vw, 56px)',
+      padding: 'clamp(40px, 5vw, 60px) 28px clamp(36px, 4vw, 52px)',
       textAlign: 'center',
       borderTop: '1px solid rgba(96,165,250,0.08)',
     }}>
       <div style={{
         display: 'flex', flexDirection: 'row', alignItems: 'center',
-        justifyContent: 'center', gap: '20px', margin: '0 auto 28px',
+        justifyContent: 'center', gap: '24px', margin: '0 auto 24px',
         flexWrap: 'wrap',
       }}>
         <div style={{
-          width: '64px', height: '64px', borderRadius: '50%', background: '#ffffff',
+          width: '96px', height: '96px', borderRadius: '50%', background: '#ffffff',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          flexShrink: 0, overflow: 'hidden', padding: '4px',
+          flexShrink: 0, overflow: 'hidden', padding: '5px',
+          boxShadow: '0 3px 12px rgba(0,0,0,0.3)',
         }}>
           <img src={benFranklin} alt="FranklinAI Solutions" style={{
-            height: '64px', width: 'auto', objectFit: 'contain', display: 'block',
+            height: '96px', width: 'auto', objectFit: 'contain', display: 'block',
           }} />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left' }}>
           <span style={{
-            fontSize: 'clamp(22px, 4vw, 32px)', fontWeight: 800, color: '#ffffff',
+            fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 800, color: '#ffffff',
             letterSpacing: '-0.5px', lineHeight: 1.1, fontFamily: "'Inter', sans-serif",
           }}>Franklin<span style={{ color: '#60a5fa' }}>AI</span></span>
           <span style={{
-            fontSize: 'clamp(22px, 4vw, 32px)', fontWeight: 800, color: '#ffffff',
+            fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 800, color: '#ffffff',
             letterSpacing: '-0.5px', lineHeight: 1.1, fontFamily: "'Inter', sans-serif",
           }}>Solutions</span>
         </div>
