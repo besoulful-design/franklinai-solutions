@@ -36,27 +36,45 @@ const css = `
   .gear-cw  { display: inline-block; animation: spin-cw  9s linear infinite; }
   .gear-ccw { display: inline-block; animation: spin-ccw 9s linear infinite; }
 
-  /* ── Gear chain cluster ──
-     Desktop: gc-lg=10.2rem, gc-md=7.8rem, gc-sm=6.0rem
-     Mobile ≤480px: exactly half — 5.1rem, 3.9rem, 3.0rem
-     Centered with breathing room above and below via margin.
+  /* ── Gear cluster ──
+     Full-bleed row so gears always center in the viewport.
+     Desktop gc-lg=10.2rem | gc-md=7.8rem | gc-sm=6.0rem
+     ≤600px  gc-lg=4.0rem  | gc-md=3.0rem | gc-sm=2.3rem  (fits 375px phone)
   ── */
+  .gear-cluster-wrap {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    overflow: hidden;
+    padding: clamp(28px, 5vw, 52px) 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .gear-cluster {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: clamp(24px, 4vw, 40px) auto clamp(24px, 4vw, 40px);
     line-height: 1;
-    width: 100%;
+    flex-shrink: 0;
   }
   .gear-cluster .gc-gear {
     display: inline-block;
     line-height: 1;
     margin: 0 2px;
+    flex-shrink: 0;
   }
   .gear-cluster .gc-lg { font-size: 10.2rem; }
   .gear-cluster .gc-md { font-size: 7.8rem; }
   .gear-cluster .gc-sm { font-size: 6.0rem; }
+
+  @media (max-width: 600px) {
+    .gear-cluster .gc-lg { font-size: 4.0rem; }
+    .gear-cluster .gc-md { font-size: 3.0rem; }
+    .gear-cluster .gc-sm { font-size: 2.3rem; }
+    .gear-cluster-wrap { padding: clamp(20px, 4vw, 32px) 0; }
+  }
 
   /* ── Workflow grid ── */
   .workflow-grid {
@@ -93,7 +111,7 @@ const css = `
   }
   .tile-desc { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.6; }
 
-  /* ── Section heading — capped at 56px so it's elegant not overwhelming ── */
+  /* ── Section heading ── */
   .section-heading {
     font-family: 'Playfair Display', serif;
     font-size: clamp(36px, 5vw, 56px);
@@ -176,15 +194,7 @@ const css = `
   .cal-iframe-wrap { flex: 1; overflow: hidden; }
   .cal-iframe-wrap iframe { width: 100%; height: 100%; border: none; display: block; background: #ffffff; border-radius: 0 0 16px 16px; }
 
-  /* ── Mobile ≤600px — nav scales down ── */
-  @media (max-width: 600px) {
-    .nav-logo-circle { width: 80px !important; height: 80px !important; }
-    .nav-logo-circle img { height: 80px !important; }
-    .nav-wordmark-line { font-size: 34px !important; letter-spacing: -1px !important; }
-    .nav-inner { gap: 14px !important; padding: 14px 18px !important; }
-  }
-
-  /* ── Mobile ≤480px — content tightens ── */
+  /* ── Mobile ≤480px — tile/card tightening ── */
   @media (max-width: 480px) {
     .workflow-grid { gap: 10px; }
     .workflow-tile { padding: 18px 12px 22px; }
@@ -194,14 +204,11 @@ const css = `
     .pricing-top { padding: 20px 18px 16px; }
     .pricing-footer { padding: 12px 18px; }
     .about-card { padding: 20px 18px; }
-    /* Gear cluster exactly half the desktop sizes */
-    .gear-cluster .gc-lg { font-size: 5.1rem; }
-    .gear-cluster .gc-md { font-size: 3.9rem; }
-    .gear-cluster .gc-sm { font-size: 3.0rem; }
   }
 `
 
 // ── Gear Chain Cluster ──────────────────────────────────────────────────────
+// Wrapped in a full-viewport-width container so it always centers perfectly.
 function GearCluster() {
   const gears = [
     { size: 'gc-sm', dir: 'gear-ccw' },
@@ -211,10 +218,12 @@ function GearCluster() {
     { size: 'gc-sm', dir: 'gear-ccw' },
   ]
   return (
-    <div className="gear-cluster">
-      {gears.map((g, i) => (
-        <span key={i} className={`gc-gear ${g.size} ${g.dir}`}>⚙️</span>
-      ))}
+    <div className="gear-cluster-wrap">
+      <div className="gear-cluster">
+        {gears.map((g, i) => (
+          <span key={i} className={`gc-gear ${g.size} ${g.dir}`}>⚙️</span>
+        ))}
+      </div>
     </div>
   )
 }
@@ -231,12 +240,12 @@ function StyleInjector() {
 }
 
 // ── Nav ─────────────────────────────────────────────────────────────────────
-// Logo: clamp(80px, 12vw, 140px) — scales with viewport, right-sized everywhere.
-// At 375px iPhone: 12vw = 45px → clamp floor = 80px. Good.
-// At 1200px desktop: 12vw = 144px → clamp cap = 140px. Good.
-// Wordmark: clamp(38px, 6vw, 72px)
-// Nav height: ~20px border + 16px pad + 140px logo + 16px pad = 192px desktop
-//             ~20px border + 14px pad + 80px logo + 14px pad = 128px mobile
+// Logo: clamp(100px, 12vw, 140px)
+//   375px iPhone → 100px (floor, larger than before)
+//   1200px desktop → 140px (cap, same as before)
+// Wordmark: clamp(42px, 6vw, 72px)
+// Nav height desktop:  20 + 16 + 140 + 16 = 192px
+// Nav height mobile:   20 + 14 + 100 + 14 = 148px
 function Nav() {
   return (
     <nav style={{
@@ -249,15 +258,15 @@ function Nav() {
         style={{
           display: 'flex', flexDirection: 'row',
           alignItems: 'center', justifyContent: 'center',
-          gap: '20px',
-          padding: '16px 32px',
+          gap: 'clamp(14px, 2vw, 24px)',
+          padding: 'clamp(14px, 2vw, 16px) 32px',
         }}
       >
         <div
           className="nav-logo-circle"
           style={{
-            width: 'clamp(80px, 12vw, 140px)',
-            height: 'clamp(80px, 12vw, 140px)',
+            width: 'clamp(100px, 12vw, 140px)',
+            height: 'clamp(100px, 12vw, 140px)',
             borderRadius: '50%',
             background: '#ffffff', display: 'flex', alignItems: 'center',
             justifyContent: 'center', flexShrink: 0, overflow: 'hidden',
@@ -267,14 +276,14 @@ function Nav() {
           <img
             src={benFranklin}
             alt="FranklinAI Solutions"
-            style={{ height: 'clamp(80px, 12vw, 140px)', width: 'auto', objectFit: 'contain', display: 'block' }}
+            style={{ height: 'clamp(100px, 12vw, 140px)', width: 'auto', objectFit: 'contain', display: 'block' }}
           />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
           <span
             className="nav-wordmark-line"
             style={{
-              fontSize: 'clamp(38px, 6vw, 72px)', fontWeight: 800, color: '#ffffff',
+              fontSize: 'clamp(42px, 6vw, 72px)', fontWeight: 800, color: '#ffffff',
               letterSpacing: '-1.5px', fontFamily: "'Inter', sans-serif",
               lineHeight: 1.04, whiteSpace: 'nowrap',
             }}
@@ -282,7 +291,7 @@ function Nav() {
           <span
             className="nav-wordmark-line"
             style={{
-              fontSize: 'clamp(38px, 6vw, 72px)', fontWeight: 800, color: '#ffffff',
+              fontSize: 'clamp(42px, 6vw, 72px)', fontWeight: 800, color: '#ffffff',
               letterSpacing: '-1.5px', fontFamily: "'Inter', sans-serif",
               lineHeight: 1.04, whiteSpace: 'nowrap',
             }}
@@ -293,17 +302,19 @@ function Nav() {
   )
 }
 
-// ── Nav height offset ───────────────────────────────────────────────────────
-// Desktop (1200px): 20 + 16 + 140 + 16 = 192px → use 208px
-// Mobile (375px):   20 + 14 + 80  + 14 = 128px → clamp floor 136px covers it
-const NAV_OFFSET = 'clamp(136px, 18vw, 212px)'
+// ── Nav height offset + hero breathing room ─────────────────────────────────
+// Nav desktop:  20 + 16 + 140 + 16 = 192px
+// Nav mobile:   20 + 14 + 100 + 14 = 148px
+// Extra gap below nav before hero content: clamp(32px, 4vw, 52px)
+// Total paddingTop: NAV_OFFSET
+const NAV_OFFSET = 'clamp(192px, 24vw, 256px)'
 
 // ── Hero ─────────────────────────────────────────────────────────────────────
 function Hero({ onBook }) {
   return (
     <section style={{
       paddingTop: NAV_OFFSET,
-      paddingBottom: 'clamp(28px, 4vw, 48px)',
+      paddingBottom: 'clamp(32px, 4vw, 52px)',
       paddingLeft: '24px',
       paddingRight: '24px',
       maxWidth: '680px',
@@ -313,14 +324,14 @@ function Hero({ onBook }) {
     }}>
       <h1 style={{
         fontFamily: "'Playfair Display', serif",
-        fontSize: 'clamp(40px, 6vw, 68px)', fontWeight: 800,
-        lineHeight: 1.06, color: '#ffffff', letterSpacing: '-0.5px', marginBottom: '18px',
+        fontSize: 'clamp(48px, 7vw, 80px)', fontWeight: 800,
+        lineHeight: 1.06, color: '#ffffff', letterSpacing: '-0.5px', marginBottom: '20px',
       }}>AI Automation</h1>
       <p style={{
-        fontSize: 'clamp(14px, 1.8vw, 16px)',
+        fontSize: 'clamp(15px, 1.8vw, 17px)',
         fontFamily: "'Inter', sans-serif", fontWeight: 400,
         color: 'rgba(255,255,255,0.75)', lineHeight: 1.65,
-        maxWidth: '440px', margin: '0 auto 28px', letterSpacing: '0.2px',
+        maxWidth: '440px', margin: '0 auto 32px', letterSpacing: '0.2px',
       }}>
         Practical AI workflows built for<br />professional service firms.
       </p>
@@ -408,7 +419,7 @@ function About() {
 // ── Contact ──────────────────────────────────────────────────────────────────
 function Contact({ onBook }) {
   return (
-    <section style={{ background: '#070f24', padding: 'clamp(20px, 3vw, 36px) 24px clamp(36px, 5vw, 60px)' }}>
+    <section style={{ background: '#070f24', padding: 'clamp(20px, 3vw, 36px) 24px clamp(40px, 5vw, 64px)' }}>
       <div style={{ maxWidth: '560px', margin: '0 auto', textAlign: 'center' }}>
         <div style={{
           fontSize: '11px', fontWeight: 700, letterSpacing: '3px',
