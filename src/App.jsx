@@ -37,30 +37,37 @@ const css = `
   .gear-ccw { display: inline-block; animation: spin-ccw 9s linear infinite; }
 
   /* ── Gear cluster ──
-     Sits in its own text-align:center block, NOT inside a maxWidth container.
-     No viewport-width hacks. Just a centered flex row.
+     width:100vw + negative margin trick forces true viewport centering
+     regardless of any parent padding/maxWidth container.
+     overflow:hidden on each gear prevents emoji descender whitespace.
   ── */
   .gear-cluster {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
     padding: clamp(28px, 5vw, 52px) 0;
     line-height: 1;
+    overflow: hidden;
   }
   .gear-cluster .gc-gear {
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     line-height: 1;
-    margin: 0 2px;
+    margin: 0 1px;
     flex-shrink: 0;
+    overflow: hidden;
   }
-  .gear-cluster .gc-lg { font-size: 10.2rem; }
-  .gear-cluster .gc-md { font-size: 7.8rem; }
-  .gear-cluster .gc-sm { font-size: 6.0rem; }
+  .gear-cluster .gc-lg { width: 10.2rem; height: 10.2rem; font-size: 10.2rem; }
+  .gear-cluster .gc-md { width: 7.8rem;  height: 7.8rem;  font-size: 7.8rem;  }
+  .gear-cluster .gc-sm { width: 6.0rem;  height: 6.0rem;  font-size: 6.0rem;  }
 
   @media (max-width: 600px) {
-    .gear-cluster .gc-lg { font-size: 4.0rem; }
-    .gear-cluster .gc-md { font-size: 3.0rem; }
-    .gear-cluster .gc-sm { font-size: 2.3rem; }
+    .gear-cluster .gc-lg { width: 4.0rem; height: 4.0rem; font-size: 4.0rem; }
+    .gear-cluster .gc-md { width: 3.0rem; height: 3.0rem; font-size: 3.0rem; }
+    .gear-cluster .gc-sm { width: 2.3rem; height: 2.3rem; font-size: 2.3rem; }
     .gear-cluster { padding: clamp(20px, 4vw, 32px) 0; }
   }
 
@@ -300,7 +307,7 @@ function Hero({ onBook }) {
     }}>
       <h1 style={{
         fontFamily: "'Playfair Display', serif",
-        fontSize: 'clamp(36px, 7vw, 80px)', fontWeight: 800,
+        fontSize: 'clamp(54px, 10.5vw, 120px)', fontWeight: 800,
         lineHeight: 1.06, color: '#ffffff', letterSpacing: '-0.5px', marginBottom: '20px',
       }}>AI Automation</h1>
       <p style={{
@@ -399,7 +406,7 @@ function Contact({ onBook }) {
     <section style={{ background: '#070f24', padding: 'clamp(40px, 6vw, 80px) 24px' }}>
       <div style={{ maxWidth: '560px', margin: '0 auto', textAlign: 'center' }}>
         <div style={{
-          fontSize: '11px', fontWeight: 700, letterSpacing: '3px',
+          fontSize: '16px', fontWeight: 700, letterSpacing: '3px',
           textTransform: 'uppercase', color: '#60a5fa', marginBottom: '16px',
         }}>GET STARTED</div>
         <h2 style={{
@@ -432,38 +439,38 @@ function Footer() {
   return (
     <footer style={{
       background: '#070f24',
-      padding: 'clamp(28px, 4vw, 44px) 28px clamp(28px, 4vw, 44px)',
+      padding: 'clamp(42px, 6vw, 66px) 28px clamp(42px, 6vw, 66px)',
       textAlign: 'center',
       borderTop: '1px solid rgba(96,165,250,0.08)',
     }}>
       <div style={{
         display: 'flex', flexDirection: 'row', alignItems: 'center',
-        justifyContent: 'center', gap: '18px', margin: '0 auto 20px',
+        justifyContent: 'center', gap: '24px', margin: '0 auto 28px',
         flexWrap: 'wrap',
       }}>
         <div style={{
-          width: '80px', height: '80px', borderRadius: '50%', background: '#ffffff',
+          width: '120px', height: '120px', borderRadius: '50%', background: '#ffffff',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          flexShrink: 0, overflow: 'hidden', padding: '4px',
+          flexShrink: 0, overflow: 'hidden', padding: '6px',
           boxShadow: '0 3px 12px rgba(0,0,0,0.3)',
         }}>
           <img src={benFranklin} alt="FranklinAI Solutions" style={{
-            height: '80px', width: 'auto', objectFit: 'contain', display: 'block',
+            height: '120px', width: 'auto', objectFit: 'contain', display: 'block',
           }} />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left' }}>
           <span style={{
-            fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 800, color: '#ffffff',
+            fontSize: 'clamp(33px, 4.5vw, 48px)', fontWeight: 800, color: '#ffffff',
             letterSpacing: '-0.5px', lineHeight: 1.1, fontFamily: "'Inter', sans-serif",
           }}>Franklin<span style={{ color: '#60a5fa' }}>AI</span></span>
           <span style={{
-            fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 800, color: '#ffffff',
+            fontSize: 'clamp(33px, 4.5vw, 48px)', fontWeight: 800, color: '#ffffff',
             letterSpacing: '-0.5px', lineHeight: 1.1, fontFamily: "'Inter', sans-serif",
           }}>Solutions</span>
         </div>
       </div>
       <span style={{
-        fontSize: '12px', color: 'rgba(255,255,255,0.3)',
+        fontSize: '18px', color: 'rgba(255,255,255,0.3)',
         lineHeight: 1.8, display: 'block', letterSpacing: '0.2px',
       }}>
         © 2026 FranklinAI Solutions · Philadelphia, PA<br />
