@@ -37,27 +37,15 @@ const css = `
   .gear-ccw { display: inline-block; animation: spin-ccw 9s linear infinite; }
 
   /* ── Gear cluster ──
-     Full-bleed row so gears always center in the viewport.
-     Desktop gc-lg=10.2rem | gc-md=7.8rem | gc-sm=6.0rem
-     ≤600px  gc-lg=4.0rem  | gc-md=3.0rem | gc-sm=2.3rem  (fits 375px phone)
+     Sits in its own text-align:center block, NOT inside a maxWidth container.
+     No viewport-width hacks. Just a centered flex row.
   ── */
-  .gear-cluster-wrap {
-    width: 100vw;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    overflow: hidden;
-    padding: clamp(28px, 5vw, 52px) 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
   .gear-cluster {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: clamp(28px, 5vw, 52px) 0;
     line-height: 1;
-    flex-shrink: 0;
   }
   .gear-cluster .gc-gear {
     display: inline-block;
@@ -73,7 +61,7 @@ const css = `
     .gear-cluster .gc-lg { font-size: 4.0rem; }
     .gear-cluster .gc-md { font-size: 3.0rem; }
     .gear-cluster .gc-sm { font-size: 2.3rem; }
-    .gear-cluster-wrap { padding: clamp(20px, 4vw, 32px) 0; }
+    .gear-cluster { padding: clamp(20px, 4vw, 32px) 0; }
   }
 
   /* ── Workflow grid ── */
@@ -151,13 +139,13 @@ const css = `
     padding: 14px 36px; font-size: 13px; color: rgba(255,255,255,0.45); letter-spacing: 0.2px;
   }
 
-  /* ── About card ── */
+  /* ── About card — centered text ── */
   .about-card {
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(96,165,250,0.18);
     border-radius: 16px;
     padding: 32px 36px;
-    max-width: 660px; width: 100%; text-align: left;
+    max-width: 660px; width: 100%; text-align: center;
   }
   .about-role { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #60a5fa; margin-bottom: 12px; }
   .about-name { font-family: 'Playfair Display', serif; font-size: clamp(20px, 2.5vw, 26px); font-weight: 700; color: #ffffff; margin-bottom: 18px; }
@@ -208,7 +196,7 @@ const css = `
 `
 
 // ── Gear Chain Cluster ──────────────────────────────────────────────────────
-// Wrapped in a full-viewport-width container so it always centers perfectly.
+// Simple centered flex row — no viewport-width hacks.
 function GearCluster() {
   const gears = [
     { size: 'gc-sm', dir: 'gear-ccw' },
@@ -218,12 +206,10 @@ function GearCluster() {
     { size: 'gc-sm', dir: 'gear-ccw' },
   ]
   return (
-    <div className="gear-cluster-wrap">
-      <div className="gear-cluster">
-        {gears.map((g, i) => (
-          <span key={i} className={`gc-gear ${g.size} ${g.dir}`}>⚙️</span>
-        ))}
-      </div>
+    <div className="gear-cluster">
+      {gears.map((g, i) => (
+        <span key={i} className={`gc-gear ${g.size} ${g.dir}`}>⚙️</span>
+      ))}
     </div>
   )
 }
@@ -240,12 +226,6 @@ function StyleInjector() {
 }
 
 // ── Nav ─────────────────────────────────────────────────────────────────────
-// Logo: clamp(100px, 12vw, 140px)
-//   375px iPhone → 100px (floor, larger than before)
-//   1200px desktop → 140px (cap, same as before)
-// Wordmark: clamp(42px, 6vw, 72px)
-// Nav height desktop:  20 + 16 + 140 + 16 = 192px
-// Nav height mobile:   20 + 14 + 100 + 14 = 148px
 function Nav() {
   return (
     <nav style={{
@@ -302,11 +282,7 @@ function Nav() {
   )
 }
 
-// ── Nav height offset + hero breathing room ─────────────────────────────────
-// Nav desktop:  20 + 16 + 140 + 16 = 192px
-// Nav mobile:   20 + 14 + 100 + 14 = 148px
-// Extra gap below nav before hero content: clamp(32px, 4vw, 52px)
-// Total paddingTop: NAV_OFFSET
+// ── Nav height offset ───────────────────────────────────────────────────────
 const NAV_OFFSET = 'clamp(192px, 24vw, 256px)'
 
 // ── Hero ─────────────────────────────────────────────────────────────────────
@@ -324,7 +300,7 @@ function Hero({ onBook }) {
     }}>
       <h1 style={{
         fontFamily: "'Playfair Display', serif",
-        fontSize: 'clamp(48px, 7vw, 80px)', fontWeight: 800,
+        fontSize: 'clamp(36px, 7vw, 80px)', fontWeight: 800,
         lineHeight: 1.06, color: '#ffffff', letterSpacing: '-0.5px', marginBottom: '20px',
       }}>AI Automation</h1>
       <p style={{
@@ -343,11 +319,12 @@ function Hero({ onBook }) {
 }
 
 // ── Workflows ────────────────────────────────────────────────────────────────
+// GearCluster sits OUTSIDE the maxWidth div so it centers to the full viewport.
 function Workflows() {
   return (
-    <section style={{ background: '#070f24', padding: 'clamp(20px, 3vw, 36px) 24px' }}>
-      <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
-        <GearCluster />
+    <section style={{ background: '#070f24', padding: 'clamp(20px, 3vw, 36px) 0' }}>
+      <GearCluster />
+      <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center', padding: '0 24px' }}>
         <h2 className="section-heading">Workflows</h2>
         <div className="workflow-grid">
           {workflows.map((w, i) => (
@@ -419,7 +396,7 @@ function About() {
 // ── Contact ──────────────────────────────────────────────────────────────────
 function Contact({ onBook }) {
   return (
-    <section style={{ background: '#070f24', padding: 'clamp(20px, 3vw, 36px) 24px clamp(40px, 5vw, 64px)' }}>
+    <section style={{ background: '#070f24', padding: 'clamp(40px, 6vw, 80px) 24px' }}>
       <div style={{ maxWidth: '560px', margin: '0 auto', textAlign: 'center' }}>
         <div style={{
           fontSize: '11px', fontWeight: 700, letterSpacing: '3px',
