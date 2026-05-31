@@ -352,16 +352,16 @@ const NAV_OFFSET = 'clamp(192px, 24vw, 256px)'
 function Hero({ onBook }) {
   return (
     <section style={{
-      paddingTop: NAV_OFFSET,
+      paddingTop: `calc(${NAV_OFFSET} + clamp(48px, 5vw, 80px))`,
       paddingBottom: 'clamp(40px, 6vw, 80px)',
       paddingLeft: '24px',
       paddingRight: '24px',
-      maxWidth: '820px',
+      maxWidth: '700px',
       margin: '0 auto',
       textAlign: 'center',
       background: '#070f24',
     }}>
-      <h1 className="hero-headline" style={{ marginBottom: '32px', color: '#60a5fa' }}>
+      <h1 className="hero-headline" style={{ marginBottom: '32px', color: '#60a5fa', fontSize: 'clamp(32px, 4.2vw, 56px)' }}>
         AI automation workflows for professional service firms.
       </h1>
       <button className="cta-btn" onClick={onBook}>
@@ -374,7 +374,7 @@ function Hero({ onBook }) {
 // ── Workflows ────────────────────────────────────────────────────────────────
 function Workflows() {
   return (
-    <section style={{ background: '#070f24', padding: 'clamp(40px, 6vw, 72px) 0 clamp(20px, 3vw, 36px)' }}>
+    <section style={{ background: '#070f24', padding: 'clamp(20px, 3vw, 36px) 0' }}>
       <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center', padding: '0 24px' }}>
         <h2 className="section-heading">Workflows</h2>
         <div className="workflow-grid">
