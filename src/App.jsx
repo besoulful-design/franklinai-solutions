@@ -131,7 +131,7 @@ const css = `
     font-size: 11px; font-weight: 700; letter-spacing: 3px;
     text-transform: uppercase; color: #60a5fa; margin-bottom: 18px;
   }
-  .pricing-numbers { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .pricing-numbers { display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; }
   .pricing-amount {
     font-family: 'Playfair Display', serif;
     font-size: clamp(28px, 4vw, 44px);
@@ -146,7 +146,7 @@ const css = `
     padding: 14px 36px; font-size: 13px; color: rgba(255,255,255,0.45); letter-spacing: 0.2px;
   }
 
-  /* ── About card — centered text ── */
+  /* ── About card ── */
   .about-card {
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(96,165,250,0.18);
@@ -156,7 +156,7 @@ const css = `
   }
   .about-role { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #60a5fa; margin-bottom: 12px; }
   .about-name { font-family: 'Playfair Display', serif; font-size: clamp(20px, 2.5vw, 26px); font-weight: 700; color: #ffffff; margin-bottom: 18px; }
-  .about-bio p { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 12px; }
+  .about-bio p { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 12px; text-align: justify; }
   .about-bio p:last-child { margin-bottom: 0; }
 
   /* ── CTA Button ── */
@@ -304,7 +304,7 @@ function Nav() {
           <img
             src={benFranklin}
             alt="FranklinAI Solutions"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 22%', display: 'block' }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 35%', display: 'block' }}
           />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
@@ -493,7 +493,7 @@ function Footer() {
           boxShadow: '0 3px 12px rgba(0,0,0,0.3)',
         }}>
           <img src={benFranklin} alt="FranklinAI Solutions" style={{
-            width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 22%', display: 'block',
+            width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 35%', display: 'block',
           }} />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left' }}>
