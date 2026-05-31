@@ -352,8 +352,8 @@ const NAV_OFFSET = 'clamp(192px, 24vw, 256px)'
 function Hero({ onBook }) {
   return (
     <section style={{
-      paddingTop: `calc(${NAV_OFFSET} + clamp(48px, 5vw, 80px))`,
-      paddingBottom: 'clamp(40px, 6vw, 80px)',
+      paddingTop: `calc(${NAV_OFFSET} + clamp(20px, 2.5vw, 32px))`,
+      paddingBottom: 'clamp(14px, 2vw, 24px)',
       paddingLeft: '24px',
       paddingRight: '24px',
       maxWidth: '700px',
@@ -362,7 +362,7 @@ function Hero({ onBook }) {
       background: '#070f24',
     }}>
       <h1 className="hero-headline" style={{ marginBottom: '32px', color: '#60a5fa', fontSize: 'clamp(32px, 4.2vw, 56px)' }}>
-        AI automation workflows for professional service firms.
+        Automation workflows for professional service firms.
       </h1>
       <button className="cta-btn" onClick={onBook}>
         Book a Free Audit →
@@ -374,7 +374,7 @@ function Hero({ onBook }) {
 // ── Workflows ────────────────────────────────────────────────────────────────
 function Workflows() {
   return (
-    <section style={{ background: '#070f24', padding: 'clamp(20px, 3vw, 36px) 0' }}>
+    <section style={{ background: '#070f24', padding: 'clamp(14px, 2vw, 24px) 0' }}>
       <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center', padding: '0 24px' }}>
         <h2 className="section-heading">Workflows</h2>
         <div className="workflow-grid">
@@ -393,7 +393,7 @@ function Workflows() {
 // ── Pricing ──────────────────────────────────────────────────────────────────
 function Pricing() {
   return (
-    <section style={{ background: '#070f24', padding: 'clamp(20px, 3vw, 36px) 24px' }}>
+    <section style={{ background: '#070f24', padding: 'clamp(14px, 2vw, 24px) 24px' }}>
       <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
         <h2 className="section-heading">Pricing</h2>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -425,7 +425,7 @@ function Pricing() {
 // ── About ────────────────────────────────────────────────────────────────────
 function About() {
   return (
-    <section style={{ background: '#070f24', padding: 'clamp(20px, 3vw, 36px) 24px' }}>
+    <section style={{ background: '#070f24', padding: 'clamp(14px, 2vw, 24px) 24px' }}>
       <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
         <h2 className="section-heading">About</h2>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -446,7 +446,7 @@ function About() {
 // ── Contact ──────────────────────────────────────────────────────────────────
 function Contact({ onBook }) {
   return (
-    <section style={{ background: '#070f24', padding: 'clamp(8px, 1.5vw, 16px) 24px clamp(40px, 6vw, 80px)' }}>
+    <section style={{ background: '#070f24', padding: 'clamp(8px, 1.5vw, 16px) 24px clamp(14px, 2vw, 24px)' }}>
       <div style={{ maxWidth: '560px', margin: '0 auto', textAlign: 'center' }}>
         <div style={{
           fontSize: '16px', fontWeight: 700, letterSpacing: '3px',
