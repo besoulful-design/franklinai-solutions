@@ -36,17 +36,11 @@ const css = `
   .gear-cw  { display: inline-block; animation: spin-cw  9s linear infinite; }
   .gear-ccw { display: inline-block; animation: spin-ccw 9s linear infinite; }
 
-  /* ── Gear cluster ──
-     width:100vw + negative margin trick forces true viewport centering
-     regardless of any parent padding/maxWidth container.
-     overflow:hidden on each gear prevents emoji descender whitespace.
-  ── */
+  /* ── Gear cluster ── */
   .gear-cluster {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100vw;
-    margin-left: calc(-50vw + 50%);
     padding: clamp(28px, 5vw, 52px) 0;
     line-height: 1;
     overflow: hidden;
@@ -111,7 +105,7 @@ const css = `
     font-family: 'Playfair Display', serif;
     font-size: clamp(36px, 5vw, 56px);
     font-weight: 800;
-    color: #ffffff;
+    color: #60a5fa;
     line-height: 1;
     pointer-events: none;
     margin-bottom: clamp(20px, 3vw, 32px);
@@ -293,9 +287,9 @@ function Nav() {
         <div
           className="nav-logo-rect"
           style={{
-            width: 'clamp(110px, 13vw, 150px)',
-            height: 'clamp(75px, 9vw, 105px)',
-            borderRadius: '12px',
+            width: 'clamp(115px, 13vw, 150px)',
+            height: 'clamp(105px, 12vw, 138px)',
+            borderRadius: '14px',
             background: '#ffffff', display: 'flex', alignItems: 'center',
             justifyContent: 'center', flexShrink: 0, overflow: 'hidden',
             boxShadow: '0 4px 20px rgba(0,0,0,0.35)',
@@ -304,7 +298,7 @@ function Nav() {
           <img
             src={benFranklin}
             alt="FranklinAI Solutions"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 35%', display: 'block' }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 42%', display: 'block' }}
           />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
@@ -485,15 +479,15 @@ function Footer() {
         flexWrap: 'wrap',
       }}>
         <div style={{
-          width: 'clamp(110px, 13vw, 150px)',
-          height: 'clamp(75px, 9vw, 105px)',
-          borderRadius: '12px', background: '#ffffff',
+          width: 'clamp(115px, 13vw, 150px)',
+          height: 'clamp(105px, 12vw, 138px)',
+          borderRadius: '14px', background: '#ffffff',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           flexShrink: 0, overflow: 'hidden',
           boxShadow: '0 3px 12px rgba(0,0,0,0.3)',
         }}>
           <img src={benFranklin} alt="FranklinAI Solutions" style={{
-            width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 35%', display: 'block',
+            width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 42%', display: 'block',
           }} />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left' }}>
