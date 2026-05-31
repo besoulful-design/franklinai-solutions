@@ -189,6 +189,55 @@ const css = `
   .cal-iframe-wrap { flex: 1; overflow: hidden; }
   .cal-iframe-wrap iframe { width: 100%; height: 100%; border: none; display: block; background: #ffffff; border-radius: 0 0 16px 16px; }
 
+  /* ── Hero layout ── */
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(32px, 5vw, 64px);
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 4vw, 48px);
+  }
+  .hero-text { text-align: left; }
+  .hero-eyebrow {
+    font-size: 11px; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; color: #60a5fa; margin-bottom: 20px;
+    display: block;
+  }
+  .hero-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 68px);
+    font-weight: 800; color: #ffffff;
+    line-height: 1.1; letter-spacing: -0.5px;
+    margin-bottom: 20px;
+  }
+  .hero-headline em { font-style: normal; color: #60a5fa; }
+  .hero-sub {
+    font-size: clamp(15px, 1.6vw, 17px);
+    color: rgba(255,255,255,0.65);
+    line-height: 1.7; margin-bottom: 32px;
+    max-width: 420px;
+  }
+  .hero-img-wrap {
+    border-radius: 14px;
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
+    border: 1px solid rgba(96,165,250,0.15);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+  }
+  .hero-img-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center 15%;
+    display: block;
+  }
+  @media (max-width: 680px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-img-wrap { aspect-ratio: 4 / 3; max-width: 460px; margin: 0 auto; }
+    .hero-text { text-align: center; }
+    .hero-sub { margin-left: auto; margin-right: auto; }
+  }
+
   /* ── Mobile ≤480px — tile/card tightening ── */
   @media (max-width: 480px) {
     .workflow-grid { gap: 10px; }
@@ -252,19 +301,18 @@ function Nav() {
         <div
           className="nav-logo-circle"
           style={{
-            width: 'clamp(100px, 12vw, 140px)',
-            height: 'clamp(100px, 12vw, 140px)',
-            borderRadius: '50%',
+            width: 'clamp(110px, 13vw, 150px)',
+            height: 'clamp(80px, 9vw, 110px)',
+            borderRadius: '12px',
             background: '#ffffff', display: 'flex', alignItems: 'center',
             justifyContent: 'center', flexShrink: 0, overflow: 'hidden',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.35)', padding: '6px',
-            marginLeft: 'clamp(-8px, -1vw, -4px)',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.35)',
           }}
         >
           <img
             src={benFranklin}
             alt="FranklinAI Solutions"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 28%', display: 'block' }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 22%', display: 'block' }}
           />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
@@ -298,30 +346,28 @@ function Hero({ onBook }) {
   return (
     <section style={{
       paddingTop: NAV_OFFSET,
-      paddingBottom: 'clamp(32px, 4vw, 52px)',
-      paddingLeft: '24px',
-      paddingRight: '24px',
-      maxWidth: '680px',
-      margin: '0 auto',
-      textAlign: 'center',
+      paddingBottom: 'clamp(40px, 6vw, 80px)',
       background: '#070f24',
     }}>
-      <h1 style={{
-        fontFamily: "'Playfair Display', serif",
-        fontSize: 'clamp(54px, 10.5vw, 120px)', fontWeight: 800,
-        lineHeight: 1.06, color: '#ffffff', letterSpacing: '-0.5px', marginBottom: '20px',
-      }}>AI Automation</h1>
-      <p style={{
-        fontSize: 'clamp(15px, 1.8vw, 17px)',
-        fontFamily: "'Inter', sans-serif", fontWeight: 400,
-        color: 'rgba(255,255,255,0.75)', lineHeight: 1.65,
-        maxWidth: '440px', margin: '0 auto 32px', letterSpacing: '0.2px',
-      }}>
-        Practical AI workflows built for<br />professional service firms.
-      </p>
-      <button className="cta-btn" onClick={onBook}>
-        Book a Free Audit →
-      </button>
+      <div className="hero-inner">
+        <div className="hero-text">
+          <span className="hero-eyebrow">Philadelphia · Professional Services</span>
+          <h1 className="hero-headline">
+            Your business runs.<br />
+            <em>Your workflows</em><br />
+            run themselves.
+          </h1>
+          <p className="hero-sub">
+            We build AI automation for accountants, advisors, insurance brokers, and therapists — so the follow-ups, intake, scheduling, and paperwork happen without you lifting a finger.
+          </p>
+          <button className="cta-btn" onClick={onBook}>
+            Book a Free Audit →
+          </button>
+        </div>
+        <div className="hero-img-wrap">
+          <img src={benFranklin} alt="FranklinAI Solutions" />
+        </div>
+      </div>
     </section>
   )
 }
@@ -450,16 +496,15 @@ function Footer() {
         flexWrap: 'wrap',
       }}>
         <div style={{
-          width: 'clamp(100px, 12vw, 140px)',
-          height: 'clamp(100px, 12vw, 140px)',
-          borderRadius: '50%', background: '#ffffff',
+          width: 'clamp(110px, 13vw, 150px)',
+          height: 'clamp(80px, 9vw, 110px)',
+          borderRadius: '12px', background: '#ffffff',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          flexShrink: 0, overflow: 'hidden', padding: '6px',
+          flexShrink: 0, overflow: 'hidden',
           boxShadow: '0 3px 12px rgba(0,0,0,0.3)',
-          marginLeft: 'clamp(-8px, -1vw, -4px)',
         }}>
           <img src={benFranklin} alt="FranklinAI Solutions" style={{
-            width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 28%', display: 'block',
+            width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 22%', display: 'block',
           }} />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left' }}>
