@@ -37,15 +37,7 @@ const css = `
   .gear-ccw { display: inline-block; animation: spin-ccw 9s linear infinite; will-change: transform; backface-visibility: hidden; }
 
   /* ── Gear cluster ── */
-  .gear-cluster {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: clamp(28px, 5vw, 52px) 0;
-    line-height: 1;
-    overflow: hidden;
-  }
-  .gear-cluster .gc-gear {
+  .gc-gear {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -54,15 +46,14 @@ const css = `
     flex-shrink: 0;
     overflow: hidden;
   }
-  .gear-cluster .gc-lg { width: 10.2rem; height: 10.2rem; font-size: 10.2rem; }
-  .gear-cluster .gc-md { width: 7.8rem;  height: 7.8rem;  font-size: 7.8rem;  }
-  .gear-cluster .gc-sm { width: 6.0rem;  height: 6.0rem;  font-size: 6.0rem;  }
+  .gc-lg { width: 10.2rem; height: 10.2rem; font-size: 10.2rem; }
+  .gc-md { width: 7.8rem;  height: 7.8rem;  font-size: 7.8rem;  }
+  .gc-sm { width: 6.0rem;  height: 6.0rem;  font-size: 6.0rem;  }
 
   @media (max-width: 600px) {
-    .gear-cluster .gc-lg { width: 4.0rem; height: 4.0rem; font-size: 4.0rem; }
-    .gear-cluster .gc-md { width: 3.0rem; height: 3.0rem; font-size: 3.0rem; }
-    .gear-cluster .gc-sm { width: 2.3rem; height: 2.3rem; font-size: 2.3rem; }
-    .gear-cluster { padding: clamp(20px, 4vw, 32px) 0; }
+    .gc-lg { width: 4.0rem; height: 4.0rem; font-size: 4.0rem; }
+    .gc-md { width: 3.0rem; height: 3.0rem; font-size: 3.0rem; }
+    .gc-sm { width: 2.3rem; height: 2.3rem; font-size: 2.3rem; }
   }
 
   /* ── Workflow grid ── */
@@ -349,8 +340,8 @@ function Hero({ onBook }) {
       textAlign: 'center',
       background: '#070f24',
     }}>
-      <h1 className="hero-headline" style={{ marginBottom: '32px' }}>
-        Practical AI automation for professional service firms — built once, running forever.
+      <h1 className="hero-headline" style={{ marginBottom: '32px', color: '#60a5fa' }}>
+        Practical AI automation for professional service firms.
       </h1>
       <button className="cta-btn" onClick={onBook}>
         Book a Free Audit →
