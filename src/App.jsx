@@ -258,12 +258,13 @@ function Nav() {
             background: '#ffffff', display: 'flex', alignItems: 'center',
             justifyContent: 'center', flexShrink: 0, overflow: 'hidden',
             boxShadow: '0 4px 20px rgba(0,0,0,0.35)', padding: '6px',
+            marginLeft: 'clamp(-8px, -1vw, -4px)',
           }}
         >
           <img
             src={benFranklin}
             alt="FranklinAI Solutions"
-            style={{ height: 'clamp(100px, 12vw, 140px)', width: 'auto', objectFit: 'contain', display: 'block' }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
           />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
@@ -445,17 +446,20 @@ function Footer() {
     }}>
       <div style={{
         display: 'flex', flexDirection: 'row', alignItems: 'center',
-        justifyContent: 'center', gap: '24px', margin: '0 auto 28px',
+        justifyContent: 'center', gap: 'clamp(14px, 2vw, 24px)', margin: '0 auto 20px',
         flexWrap: 'wrap',
       }}>
         <div style={{
-          width: '120px', height: '120px', borderRadius: '50%', background: '#ffffff',
+          width: 'clamp(100px, 12vw, 140px)',
+          height: 'clamp(100px, 12vw, 140px)',
+          borderRadius: '50%', background: '#ffffff',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           flexShrink: 0, overflow: 'hidden', padding: '6px',
           boxShadow: '0 3px 12px rgba(0,0,0,0.3)',
+          marginLeft: 'clamp(-8px, -1vw, -4px)',
         }}>
           <img src={benFranklin} alt="FranklinAI Solutions" style={{
-            height: '120px', width: 'auto', objectFit: 'contain', display: 'block',
+            width: '100%', height: '100%', objectFit: 'cover', display: 'block',
           }} />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left' }}>
@@ -470,8 +474,8 @@ function Footer() {
         </div>
       </div>
       <span style={{
-        fontSize: '18px', color: 'rgba(255,255,255,0.3)',
-        lineHeight: 1.8, display: 'block', letterSpacing: '0.2px',
+        fontSize: '13px', color: 'rgba(255,255,255,0.3)',
+        lineHeight: 1.6, display: 'block', letterSpacing: '0.2px',
       }}>
         © 2026 FranklinAI Solutions · Philadelphia, PA<br />
         franklinaisolutions.com
