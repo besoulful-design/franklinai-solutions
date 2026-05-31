@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import benFranklin from './assets/ben-franklin.jpeg'
+import benFranklin from './assets/ben-franklin-portrait.png'
 
 const CAL_URL = 'https://cal.com/david-peterson-40s7lw/free-workflow-audit?embed=true&embedType=inline&theme=dark'
 
@@ -264,7 +264,7 @@ function Nav() {
           <img
             src={benFranklin}
             alt="FranklinAI Solutions"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 28%', display: 'block' }}
           />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
@@ -459,7 +459,7 @@ function Footer() {
           marginLeft: 'clamp(-8px, -1vw, -4px)',
         }}>
           <img src={benFranklin} alt="FranklinAI Solutions" style={{
-            width: '100%', height: '100%', objectFit: 'cover', display: 'block',
+            width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 28%', display: 'block',
           }} />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left' }}>
