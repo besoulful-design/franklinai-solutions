@@ -56,7 +56,7 @@ const css = `
   }
   .tile-name {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(14px, 1.8vw, 17px);
+    font-size: clamp(16px, 2vw, 19px);
     font-weight: 700;
     color: #ffffff;
     margin-bottom: 10px;
@@ -193,7 +193,7 @@ const css = `
     .workflow-grid { gap: 8px; }
     .workflow-tile { padding: 18px 12px 22px; }
     .tile-gear { font-size: 1.6rem; }
-    .tile-name { font-size: 13px; }
+    .tile-name { font-size: 15px; }
     .tile-desc { font-size: 12px; }
     .pricing-top { padding: 20px 18px 16px; }
     .pricing-footer { padding: 12px 18px; }
@@ -449,7 +449,7 @@ function About() {
 // ── Contact ──────────────────────────────────────────────────────────────────
 function Contact({ onBook }) {
   return (
-    <section style={{ background: '#070f24', padding: 'clamp(20px, 3vw, 36px) 24px clamp(32px, 5vw, 56px)' }}>
+    <section style={{ background: '#070f24', padding: 'clamp(32px, 4.5vw, 52px) 32px clamp(40px, 6vw, 64px)' }}>
       <div style={{ maxWidth: '560px', margin: '0 auto', textAlign: 'center' }}>
         <div style={{
           fontSize: '16px', fontWeight: 700, letterSpacing: '3px',
