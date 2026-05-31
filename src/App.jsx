@@ -41,7 +41,7 @@ const css = `
   .workflow-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    gap: 10px;
     width: 100%;
     max-width: 820px;
     margin: 0 auto;
@@ -198,7 +198,7 @@ const css = `
 
   /* ── Mobile ≤480px — tile/card tightening ── */
   @media (max-width: 480px) {
-    .workflow-grid { gap: 10px; }
+    .workflow-grid { gap: 8px; }
     .workflow-tile { padding: 18px 12px 22px; }
     .tile-gear { font-size: 1.6rem; }
     .tile-name { font-size: 13px; }
@@ -243,9 +243,9 @@ function SvgGear({ size, spin }) {
         willChange: 'transform',
       }}
     >
-      <path fill="#60a5fa" d={gearPath} />
+      <path fill="#94a3b8" d={gearPath} />
       <circle cx="50" cy="50" r="16" fill="#070f24" />
-      <circle cx="50" cy="50" r="5" fill="#60a5fa" />
+      <circle cx="50" cy="50" r="5" fill="#94a3b8" />
     </svg>
   )
 }
@@ -261,18 +261,21 @@ function GearCluster() {
   ]
   return (
     <div style={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
+      textAlign: 'center',
       width: '100%',
       padding: 'clamp(28px, 5vw, 52px) 0',
       overflow: 'hidden',
       boxSizing: 'border-box',
-      gap: '2px',
     }}>
-      {gears.map((g, i) => (
-        <SvgGear key={i} size={g.size} spin={g.spin} />
-      ))}
+      <div style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '2px',
+      }}>
+        {gears.map((g, i) => (
+          <SvgGear key={i} size={g.size} spin={g.spin} />
+        ))}
+      </div>
     </div>
   )
 }
@@ -283,17 +286,83 @@ function StyleInjector() {
     const tag = document.createElement('style')
     tag.textContent = css
     document.head.appendChild(tag)
-    // ── Favicon ──
-    const existingFavicon = document.querySelector("link[rel~='icon']")
-    if (existingFavicon) existingFavicon.remove()
-    const favicon = document.createElement('link')
-    favicon.rel = 'icon'
-    favicon.type = 'image/png'
-    favicon.href = new URL('./assets/ben-franklin-portrait.png', import.meta.url).href
-    document.head.appendChild(favicon)
+
+    // ── Favicon: navy-backed Franklin generated via canvas ──
+    const srcHref = new URL('./assets/ben-franklin-portrait.png', import.meta.url).href
+    const ICON_SIZE = 256
+    const RADIUS = 56
+    const NAVY = '#070f24'
+    const CROP_FACTOR = 0.62   // tighter = less cream, more face. tune if needed.
+    const VERTICAL_FOCUS = 0.42 // where Franklin's face sits in the source image (0 = top, 1 = bottom)
+
+    let cancelled = false
+    const addedLinks = []
+
+    const applyIcon = (href) => {
+      if (cancelled) return
+      document.querySelectorAll("link[rel~='icon'], link[rel='apple-touch-icon']").forEach(l => l.remove())
+      const fav = document.createElement('link')
+      fav.rel = 'icon'
+      fav.type = 'image/png'
+      fav.href = href
+      document.head.appendChild(fav)
+      addedLinks.push(fav)
+      const apple = document.createElement('link')
+      apple.rel = 'apple-touch-icon'
+      apple.href = href
+      document.head.appendChild(apple)
+      addedLinks.push(apple)
+    }
+
+    const img = new Image()
+    img.crossOrigin = 'anonymous'
+    img.onload = () => {
+      if (cancelled) return
+      try {
+        const canvas = document.createElement('canvas')
+        canvas.width = canvas.height = ICON_SIZE
+        const ctx = canvas.getContext('2d')
+
+        // Rounded-square clip
+        const r = RADIUS
+        ctx.beginPath()
+        ctx.moveTo(r, 0)
+        ctx.lineTo(ICON_SIZE - r, 0)
+        ctx.quadraticCurveTo(ICON_SIZE, 0, ICON_SIZE, r)
+        ctx.lineTo(ICON_SIZE, ICON_SIZE - r)
+        ctx.quadraticCurveTo(ICON_SIZE, ICON_SIZE, ICON_SIZE - r, ICON_SIZE)
+        ctx.lineTo(r, ICON_SIZE)
+        ctx.quadraticCurveTo(0, ICON_SIZE, 0, ICON_SIZE - r)
+        ctx.lineTo(0, r)
+        ctx.quadraticCurveTo(0, 0, r, 0)
+        ctx.closePath()
+        ctx.clip()
+
+        // Navy background
+        ctx.fillStyle = NAVY
+        ctx.fillRect(0, 0, ICON_SIZE, ICON_SIZE)
+
+        // Tight central crop of Franklin → composite on navy
+        const iw = img.naturalWidth
+        const ih = img.naturalHeight
+        const cropSize = Math.min(iw, ih) * CROP_FACTOR
+        const sx = (iw - cropSize) / 2
+        const sy = Math.max(0, Math.min(ih - cropSize, ih * VERTICAL_FOCUS - cropSize / 2))
+        ctx.drawImage(img, sx, sy, cropSize, cropSize, 0, 0, ICON_SIZE, ICON_SIZE)
+
+        applyIcon(canvas.toDataURL('image/png'))
+      } catch (e) {
+        // canvas tainted or unavailable — fall back to raw image
+        applyIcon(srcHref)
+      }
+    }
+    img.onerror = () => applyIcon(srcHref)
+    img.src = srcHref
+
     return () => {
+      cancelled = true
       document.head.removeChild(tag)
-      if (document.head.contains(favicon)) document.head.removeChild(favicon)
+      addedLinks.forEach(l => { if (document.head.contains(l)) document.head.removeChild(l) })
     }
   }, [])
   return null
