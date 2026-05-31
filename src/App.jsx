@@ -213,8 +213,9 @@ function StyleInjector() {
     const ICON_SIZE = 256
     const RADIUS = 56
     const NAVY = '#070f24'
-    const CROP_FACTOR = 0.62   // tighter = less cream, more face. tune if needed.
-    const VERTICAL_FOCUS = 0.42 // where Franklin's face sits in the source image (0 = top, 1 = bottom)
+    const CROP_FACTOR = 0.62    // smaller = tighter face crop, less cream
+    const VERTICAL_FOCUS = 0.42 // 0 = top, 1 = bottom of source
+    const INNER_SCALE = 0.82    // Franklin fills 82% of the icon; rest is navy frame
 
     let cancelled = false
     const addedLinks = []
@@ -263,13 +264,15 @@ function StyleInjector() {
         ctx.fillStyle = NAVY
         ctx.fillRect(0, 0, ICON_SIZE, ICON_SIZE)
 
-        // Tight central crop of Franklin → composite on navy
+        // Tight central crop of Franklin → composite on navy with inner padding
         const iw = img.naturalWidth
         const ih = img.naturalHeight
         const cropSize = Math.min(iw, ih) * CROP_FACTOR
         const sx = (iw - cropSize) / 2
         const sy = Math.max(0, Math.min(ih - cropSize, ih * VERTICAL_FOCUS - cropSize / 2))
-        ctx.drawImage(img, sx, sy, cropSize, cropSize, 0, 0, ICON_SIZE, ICON_SIZE)
+        const drawSize = ICON_SIZE * INNER_SCALE
+        const drawOffset = (ICON_SIZE - drawSize) / 2
+        ctx.drawImage(img, sx, sy, cropSize, cropSize, drawOffset, drawOffset, drawSize, drawSize)
 
         applyIcon(canvas.toDataURL('image/png'))
       } catch (e) {
@@ -352,7 +355,7 @@ const NAV_OFFSET = 'clamp(192px, 24vw, 256px)'
 function Hero({ onBook }) {
   return (
     <section style={{
-      paddingTop: `calc(${NAV_OFFSET} + clamp(20px, 2.5vw, 32px))`,
+      paddingTop: `calc(${NAV_OFFSET} + clamp(8px, 1.5vw, 16px))`,
       paddingBottom: 'clamp(14px, 2vw, 24px)',
       paddingLeft: '24px',
       paddingRight: '24px',
@@ -361,7 +364,7 @@ function Hero({ onBook }) {
       textAlign: 'center',
       background: '#070f24',
     }}>
-      <h1 className="hero-headline" style={{ marginBottom: '32px', color: '#60a5fa', fontSize: 'clamp(32px, 4.2vw, 56px)' }}>
+      <h1 className="hero-headline" style={{ marginBottom: '52px', color: '#60a5fa', fontSize: 'clamp(32px, 4.2vw, 56px)' }}>
         Automation workflows for professional service firms.
       </h1>
       <button className="cta-btn" onClick={onBook}>
@@ -446,7 +449,7 @@ function About() {
 // ── Contact ──────────────────────────────────────────────────────────────────
 function Contact({ onBook }) {
   return (
-    <section style={{ background: '#070f24', padding: 'clamp(8px, 1.5vw, 16px) 24px clamp(14px, 2vw, 24px)' }}>
+    <section style={{ background: '#070f24', padding: 'clamp(8px, 1.5vw, 16px) 24px clamp(32px, 5vw, 56px)' }}>
       <div style={{ maxWidth: '560px', margin: '0 auto', textAlign: 'center' }}>
         <div style={{
           fontSize: '16px', fontWeight: 700, letterSpacing: '3px',
