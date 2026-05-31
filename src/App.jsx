@@ -30,13 +30,6 @@ const css = `
   html { font-family: 'Inter', sans-serif; }
   body { background: #070f24; color: #ffffff; overflow-x: hidden; }
 
-  /* ── Gear animations ── */
-  @keyframes spin-cw  { from { transform: rotate(0deg); } to { transform: rotate(360deg);  } }
-  @keyframes spin-ccw { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
-  .gear-cw  { display: inline-block; animation: spin-cw  9s linear infinite; will-change: transform; backface-visibility: hidden; }
-  .gear-ccw { display: inline-block; animation: spin-ccw 9s linear infinite; will-change: transform; backface-visibility: hidden; }
-
-
   /* ── Workflow grid ── */
   .workflow-grid {
     display: grid;
@@ -61,7 +54,6 @@ const css = `
     background: rgba(96,165,250,0.06);
     border-color: rgba(96,165,250,0.4);
   }
-  .tile-gear { display: flex; justify-content: center; margin-bottom: 14px; }
   .tile-name {
     font-family: 'Playfair Display', serif;
     font-size: clamp(14px, 1.8vw, 17px);
@@ -120,9 +112,9 @@ const css = `
     padding: 32px 36px;
     max-width: 660px; width: 100%; text-align: center;
   }
-  .about-role { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #60a5fa; margin-bottom: 12px; }
-  .about-name { font-family: 'Playfair Display', serif; font-size: clamp(20px, 2.5vw, 26px); font-weight: 700; color: #ffffff; margin-bottom: 18px; }
-  .about-bio p { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 12px; text-align: justify; }
+  .about-role { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #60a5fa; margin-bottom: 18px; }
+  .about-name { font-family: 'Playfair Display', serif; font-size: clamp(20px, 2.5vw, 26px); font-weight: 700; color: #ffffff; margin-bottom: 8px; }
+  .about-bio p { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 12px; text-align: center; }
   .about-bio p:last-child { margin-bottom: 0; }
 
   /* ── CTA Button ── */
@@ -208,77 +200,6 @@ const css = `
     .about-card { padding: 20px 18px; }
   }
 `
-
-// ── SVG Gear ────────────────────────────────────────────────────────────────
-function buildGearPath(teeth = 12, outerR = 46, innerR = 36, toothH = 10, cx = 50, cy = 50) {
-  const pts = []
-  const step = (2 * Math.PI) / teeth
-  for (let i = 0; i < teeth; i++) {
-    const a = i * step - Math.PI / 2
-    const a1 = a - step * 0.2
-    const a2 = a - step * 0.1
-    const a3 = a + step * 0.1
-    const a4 = a + step * 0.2
-    const r1 = innerR, r2 = outerR
-    pts.push(`${cx + r1 * Math.cos(a1)},${cy + r1 * Math.sin(a1)}`)
-    pts.push(`${cx + r2 * Math.cos(a2)},${cy + r2 * Math.sin(a2)}`)
-    pts.push(`${cx + r2 * Math.cos(a3)},${cy + r2 * Math.sin(a3)}`)
-    pts.push(`${cx + r1 * Math.cos(a4)},${cy + r1 * Math.sin(a4)}`)
-  }
-  return 'M ' + pts.join(' L ') + ' Z'
-}
-
-function SvgGear({ size, spin }) {
-  const gearPath = buildGearPath(12, 46, 36, 10, 50, 50)
-  return (
-    <svg
-      viewBox="0 0 100 100"
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      style={{
-        display: 'block',
-        flexShrink: 0,
-        animation: `${spin} 9s linear infinite`,
-        willChange: 'transform',
-      }}
-    >
-      <path fill="#94a3b8" d={gearPath} />
-      <circle cx="50" cy="50" r="16" fill="#070f24" />
-      <circle cx="50" cy="50" r="5" fill="#94a3b8" />
-    </svg>
-  )
-}
-
-// ── Gear Chain Cluster ──────────────────────────────────────────────────────
-function GearCluster() {
-  const gears = [
-    { size: 60,  spin: 'spin-ccw' },
-    { size: 78,  spin: 'spin-cw'  },
-    { size: 102, spin: 'spin-ccw' },
-    { size: 78,  spin: 'spin-cw'  },
-    { size: 60,  spin: 'spin-ccw' },
-  ]
-  return (
-    <div style={{
-      textAlign: 'center',
-      width: '100%',
-      padding: 'clamp(28px, 5vw, 52px) 0',
-      overflow: 'hidden',
-      boxSizing: 'border-box',
-    }}>
-      <div style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: '2px',
-      }}>
-        {gears.map((g, i) => (
-          <SvgGear key={i} size={g.size} spin={g.spin} />
-        ))}
-      </div>
-    </div>
-  )
-}
 
 // ── Style injector ──────────────────────────────────────────────────────────
 function StyleInjector() {
@@ -451,19 +372,14 @@ function Hero({ onBook }) {
 }
 
 // ── Workflows ────────────────────────────────────────────────────────────────
-// GearCluster sits OUTSIDE the maxWidth div so it centers to the full viewport.
 function Workflows() {
   return (
-    <section style={{ background: '#070f24', padding: 'clamp(20px, 3vw, 36px) 0' }}>
-      <GearCluster />
+    <section style={{ background: '#070f24', padding: 'clamp(40px, 6vw, 72px) 0 clamp(20px, 3vw, 36px)' }}>
       <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center', padding: '0 24px' }}>
         <h2 className="section-heading">Workflows</h2>
         <div className="workflow-grid">
           {workflows.map((w, i) => (
             <div className="workflow-tile" key={i}>
-              <div className="tile-gear">
-                <SvgGear size={38} spin={i % 2 === 0 ? 'spin-cw' : 'spin-ccw'} />
-              </div>
               <div className="tile-name">{w.name}</div>
               <div className="tile-desc">{w.desc}</div>
             </div>
@@ -514,8 +430,8 @@ function About() {
         <h2 className="section-heading">About</h2>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div className="about-card">
-            <div className="about-role">Founder & Builder</div>
             <div className="about-name">David Peterson</div>
+            <div className="about-role">Founder & Builder</div>
             <div className="about-bio">
               <p>David has spent 20 years in operations across research, education, healthcare, and small business — managing the workflows, systems, and processes that keep organizations running. From supporting executive leadership at national institutions to implementing digital tools that streamlined how teams work, he's always been the person who figures out how to make things run better.</p>
               <p>That same drive is what FranklinAI Solutions is built on. AI automation isn't a new concept for David — it's the next step in work he's been doing his whole career, now with better tools.</p>
@@ -530,7 +446,7 @@ function About() {
 // ── Contact ──────────────────────────────────────────────────────────────────
 function Contact({ onBook }) {
   return (
-    <section style={{ background: '#070f24', padding: 'clamp(40px, 6vw, 80px) 24px' }}>
+    <section style={{ background: '#070f24', padding: 'clamp(8px, 1.5vw, 16px) 24px clamp(40px, 6vw, 80px)' }}>
       <div style={{ maxWidth: '560px', margin: '0 auto', textAlign: 'center' }}>
         <div style={{
           fontSize: '16px', fontWeight: 700, letterSpacing: '3px',
