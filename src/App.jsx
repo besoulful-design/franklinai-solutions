@@ -339,27 +339,24 @@ function Hero({ onBook }) {
     <section style={{
       paddingTop: NAV_OFFSET,
       paddingBottom: 'clamp(40px, 6vw, 80px)',
+      paddingLeft: '24px',
+      paddingRight: '24px',
+      maxWidth: '720px',
+      margin: '0 auto',
+      textAlign: 'center',
       background: '#070f24',
     }}>
-      <div className="hero-inner">
-        <div>
-          <span className="hero-eyebrow">Philadelphia · Professional Services</span>
-          <h1 className="hero-headline">
-            Your business runs.<br />
-            <em>Your workflows</em><br />
-            run themselves.
-          </h1>
-          <p className="hero-sub">
-            We build AI automation for accountants, advisors, insurance brokers, and therapists — so the follow-ups, intake, scheduling, and paperwork happen without you lifting a finger.
-          </p>
-          <button className="cta-btn" onClick={onBook}>
-            Book a Free Audit →
-          </button>
-        </div>
-        <div className="hero-img-wrap">
-          <img src={benFranklin} alt="FranklinAI Solutions" />
-        </div>
-      </div>
+      <h1 className="hero-headline">
+        Your business runs.<br />
+        <em>Your workflows</em><br />
+        run themselves.
+      </h1>
+      <p className="hero-sub" style={{ margin: '0 auto 32px' }}>
+        Practical AI automation for professional service firms — built once, running forever.
+      </p>
+      <button className="cta-btn" onClick={onBook}>
+        Book a Free Audit →
+      </button>
     </section>
   )
 }
