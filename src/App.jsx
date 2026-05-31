@@ -33,8 +33,8 @@ const css = `
   /* ── Gear animations ── */
   @keyframes spin-cw  { from { transform: rotate(0deg); } to { transform: rotate(360deg);  } }
   @keyframes spin-ccw { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
-  .gear-cw  { display: inline-block; animation: spin-cw  9s linear infinite; }
-  .gear-ccw { display: inline-block; animation: spin-ccw 9s linear infinite; }
+  .gear-cw  { display: inline-block; animation: spin-cw  9s linear infinite; will-change: transform; backface-visibility: hidden; }
+  .gear-ccw { display: inline-block; animation: spin-ccw 9s linear infinite; will-change: transform; backface-visibility: hidden; }
 
   /* ── Gear cluster ── */
   .gear-cluster {
@@ -238,7 +238,7 @@ const css = `
 `
 
 // ── Gear Chain Cluster ──────────────────────────────────────────────────────
-// Simple centered flex row — no viewport-width hacks.
+// Fully inline-styled to bypass any CSS class issues with centering.
 function GearCluster() {
   const gears = [
     { size: 'gc-sm', dir: 'gear-ccw' },
@@ -248,7 +248,16 @@ function GearCluster() {
     { size: 'gc-sm', dir: 'gear-ccw' },
   ]
   return (
-    <div className="gear-cluster">
+    <div style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '100%',
+      padding: 'clamp(28px, 5vw, 52px) 0',
+      lineHeight: 1,
+      overflow: 'hidden',
+      boxSizing: 'border-box',
+    }}>
       {gears.map((g, i) => (
         <span key={i} className={`gc-gear ${g.size} ${g.dir}`}>⚙️</span>
       ))}
@@ -298,7 +307,7 @@ function Nav() {
           <img
             src={benFranklin}
             alt="FranklinAI Solutions"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 42%', display: 'block' }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 42%', transform: 'scale(1.08)', transformOrigin: 'left center', display: 'block' }}
           />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
@@ -335,19 +344,14 @@ function Hero({ onBook }) {
       paddingBottom: 'clamp(40px, 6vw, 80px)',
       paddingLeft: '24px',
       paddingRight: '24px',
-      maxWidth: '720px',
+      maxWidth: '820px',
       margin: '0 auto',
       textAlign: 'center',
       background: '#070f24',
     }}>
-      <h1 className="hero-headline">
-        Your business runs.<br />
-        <em>Your workflows</em><br />
-        run themselves.
-      </h1>
-      <p className="hero-sub" style={{ margin: '0 auto 32px' }}>
+      <h1 className="hero-headline" style={{ marginBottom: '32px' }}>
         Practical AI automation for professional service firms — built once, running forever.
-      </p>
+      </h1>
       <button className="cta-btn" onClick={onBook}>
         Book a Free Audit →
       </button>
@@ -487,7 +491,7 @@ function Footer() {
           boxShadow: '0 3px 12px rgba(0,0,0,0.3)',
         }}>
           <img src={benFranklin} alt="FranklinAI Solutions" style={{
-            width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 42%', display: 'block',
+            width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 42%', transform: 'scale(1.08)', transformOrigin: 'left center', display: 'block',
           }} />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left' }}>
