@@ -356,7 +356,7 @@ function Hero({ onBook }) {
   return (
     <section style={{
       paddingTop: `calc(${NAV_OFFSET} + clamp(8px, 1.5vw, 16px))`,
-      paddingBottom: 'clamp(14px, 2vw, 24px)',
+      paddingBottom: 'clamp(32px, 4.5vw, 52px)',
       paddingLeft: '24px',
       paddingRight: '24px',
       maxWidth: '700px',
