@@ -36,25 +36,6 @@ const css = `
   .gear-cw  { display: inline-block; animation: spin-cw  9s linear infinite; will-change: transform; backface-visibility: hidden; }
   .gear-ccw { display: inline-block; animation: spin-ccw 9s linear infinite; will-change: transform; backface-visibility: hidden; }
 
-  /* ── Gear cluster ── */
-  .gc-gear {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
-    margin: 0 1px;
-    flex-shrink: 0;
-    overflow: hidden;
-  }
-  .gc-lg { width: 10.2rem; height: 10.2rem; font-size: 10.2rem; }
-  .gc-md { width: 7.8rem;  height: 7.8rem;  font-size: 7.8rem;  }
-  .gc-sm { width: 6.0rem;  height: 6.0rem;  font-size: 6.0rem;  }
-
-  @media (max-width: 600px) {
-    .gc-lg { width: 4.0rem; height: 4.0rem; font-size: 4.0rem; }
-    .gc-md { width: 3.0rem; height: 3.0rem; font-size: 3.0rem; }
-    .gc-sm { width: 2.3rem; height: 2.3rem; font-size: 2.3rem; }
-  }
 
   /* ── Workflow grid ── */
   .workflow-grid {
@@ -80,7 +61,7 @@ const css = `
     background: rgba(96,165,250,0.06);
     border-color: rgba(96,165,250,0.4);
   }
-  .tile-gear { font-size: 2.4rem; margin-bottom: 14px; line-height: 1; }
+  .tile-gear { display: flex; justify-content: center; margin-bottom: 14px; }
   .tile-name {
     font-family: 'Playfair Display', serif;
     font-size: clamp(14px, 1.8vw, 17px);
@@ -228,15 +209,55 @@ const css = `
   }
 `
 
+// ── SVG Gear ────────────────────────────────────────────────────────────────
+function buildGearPath(teeth = 12, outerR = 46, innerR = 36, toothH = 10, cx = 50, cy = 50) {
+  const pts = []
+  const step = (2 * Math.PI) / teeth
+  for (let i = 0; i < teeth; i++) {
+    const a = i * step - Math.PI / 2
+    const a1 = a - step * 0.2
+    const a2 = a - step * 0.1
+    const a3 = a + step * 0.1
+    const a4 = a + step * 0.2
+    const r1 = innerR, r2 = outerR
+    pts.push(`${cx + r1 * Math.cos(a1)},${cy + r1 * Math.sin(a1)}`)
+    pts.push(`${cx + r2 * Math.cos(a2)},${cy + r2 * Math.sin(a2)}`)
+    pts.push(`${cx + r2 * Math.cos(a3)},${cy + r2 * Math.sin(a3)}`)
+    pts.push(`${cx + r1 * Math.cos(a4)},${cy + r1 * Math.sin(a4)}`)
+  }
+  return 'M ' + pts.join(' L ') + ' Z'
+}
+
+function SvgGear({ size, spin }) {
+  const gearPath = buildGearPath(12, 46, 36, 10, 50, 50)
+  return (
+    <svg
+      viewBox="0 0 100 100"
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      style={{
+        display: 'block',
+        flexShrink: 0,
+        animation: `${spin} 9s linear infinite`,
+        willChange: 'transform',
+      }}
+    >
+      <path fill="#60a5fa" d={gearPath} />
+      <circle cx="50" cy="50" r="16" fill="#070f24" />
+      <circle cx="50" cy="50" r="5" fill="#60a5fa" />
+    </svg>
+  )
+}
+
 // ── Gear Chain Cluster ──────────────────────────────────────────────────────
-// Fully inline-styled to bypass any CSS class issues with centering.
 function GearCluster() {
   const gears = [
-    { size: 'gc-sm', dir: 'gear-ccw' },
-    { size: 'gc-md', dir: 'gear-cw'  },
-    { size: 'gc-lg', dir: 'gear-ccw' },
-    { size: 'gc-md', dir: 'gear-cw'  },
-    { size: 'gc-sm', dir: 'gear-ccw' },
+    { size: 60,  spin: 'spin-ccw' },
+    { size: 78,  spin: 'spin-cw'  },
+    { size: 102, spin: 'spin-ccw' },
+    { size: 78,  spin: 'spin-cw'  },
+    { size: 60,  spin: 'spin-ccw' },
   ]
   return (
     <div style={{
@@ -245,12 +266,12 @@ function GearCluster() {
       justifyContent: 'center',
       width: '100%',
       padding: 'clamp(28px, 5vw, 52px) 0',
-      lineHeight: 1,
       overflow: 'hidden',
       boxSizing: 'border-box',
+      gap: '2px',
     }}>
       {gears.map((g, i) => (
-        <span key={i} className={`gc-gear ${g.size} ${g.dir}`}>⚙️</span>
+        <SvgGear key={i} size={g.size} spin={g.spin} />
       ))}
     </div>
   )
@@ -262,7 +283,18 @@ function StyleInjector() {
     const tag = document.createElement('style')
     tag.textContent = css
     document.head.appendChild(tag)
-    return () => document.head.removeChild(tag)
+    // ── Favicon ──
+    const existingFavicon = document.querySelector("link[rel~='icon']")
+    if (existingFavicon) existingFavicon.remove()
+    const favicon = document.createElement('link')
+    favicon.rel = 'icon'
+    favicon.type = 'image/png'
+    favicon.href = new URL('./assets/ben-franklin-portrait.png', import.meta.url).href
+    document.head.appendChild(favicon)
+    return () => {
+      document.head.removeChild(tag)
+      if (document.head.contains(favicon)) document.head.removeChild(favicon)
+    }
   }, [])
   return null
 }
@@ -290,15 +322,14 @@ function Nav() {
             width: 'clamp(115px, 13vw, 150px)',
             height: 'clamp(105px, 12vw, 138px)',
             borderRadius: '14px',
-            background: '#ffffff', display: 'flex', alignItems: 'center',
+            background: 'transparent', display: 'flex', alignItems: 'center',
             justifyContent: 'center', flexShrink: 0, overflow: 'hidden',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.35)',
           }}
         >
           <img
             src={benFranklin}
             alt="FranklinAI Solutions"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 42%', transform: 'scale(1.08)', transformOrigin: 'left center', display: 'block' }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 42%', transform: 'scale(1.08)', transformOrigin: 'left center', display: 'block', borderRadius: '14px' }}
           />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
@@ -341,7 +372,7 @@ function Hero({ onBook }) {
       background: '#070f24',
     }}>
       <h1 className="hero-headline" style={{ marginBottom: '32px', color: '#60a5fa' }}>
-        Practical AI automation for professional service firms.
+        AI automation workflows for professional service firms.
       </h1>
       <button className="cta-btn" onClick={onBook}>
         Book a Free Audit →
@@ -361,7 +392,9 @@ function Workflows() {
         <div className="workflow-grid">
           {workflows.map((w, i) => (
             <div className="workflow-tile" key={i}>
-              <span className={`tile-gear ${i % 2 === 0 ? 'gear-cw' : 'gear-ccw'}`}>⚙️</span>
+              <div className="tile-gear">
+                <SvgGear size={38} spin={i % 2 === 0 ? 'spin-cw' : 'spin-ccw'} />
+              </div>
               <div className="tile-name">{w.name}</div>
               <div className="tile-desc">{w.desc}</div>
             </div>
@@ -476,13 +509,12 @@ function Footer() {
         <div style={{
           width: 'clamp(115px, 13vw, 150px)',
           height: 'clamp(105px, 12vw, 138px)',
-          borderRadius: '14px', background: '#ffffff',
+          borderRadius: '14px', background: 'transparent',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           flexShrink: 0, overflow: 'hidden',
-          boxShadow: '0 3px 12px rgba(0,0,0,0.3)',
         }}>
           <img src={benFranklin} alt="FranklinAI Solutions" style={{
-            width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 42%', transform: 'scale(1.08)', transformOrigin: 'left center', display: 'block',
+            width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 42%', transform: 'scale(1.08)', transformOrigin: 'left center', display: 'block', borderRadius: '14px',
           }} />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left' }}>
