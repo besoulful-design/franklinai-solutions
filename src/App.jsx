@@ -365,7 +365,7 @@ function Hero({ onBook }) {
       background: '#070f24',
     }}>
       <h1 className="hero-headline" style={{ marginBottom: '52px', color: '#60a5fa', fontSize: 'clamp(32px, 4.2vw, 56px)' }}>
-        Automation workflows for professional service firms.
+        Automation workflows for professional services.
       </h1>
       <button className="cta-btn" onClick={onBook}>
         Book a Free Audit →
@@ -449,7 +449,7 @@ function About() {
 // ── Contact ──────────────────────────────────────────────────────────────────
 function Contact({ onBook }) {
   return (
-    <section style={{ background: '#070f24', padding: 'clamp(8px, 1.5vw, 16px) 24px clamp(32px, 5vw, 56px)' }}>
+    <section style={{ background: '#070f24', padding: 'clamp(20px, 3vw, 36px) 24px clamp(32px, 5vw, 56px)' }}>
       <div style={{ maxWidth: '560px', margin: '0 auto', textAlign: 'center' }}>
         <div style={{
           fontSize: '16px', fontWeight: 700, letterSpacing: '3px',
